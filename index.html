@@ -3,134 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PaletteVerse - Art E-commerce</title>
-    <!-- Added Google Fonts for modern typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Linked external CSS file instead of inline styles -->
-    <link rel="stylesheet" href="homeb.css">
+    <title>PaletteVerse - Login</title>
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="nav-wrapper">
-                <div class="logo">
-                    <img src="logo.jpeg" alt="PaletteVerse Logo" class="logo-icon">
-                    <div class="logo-text">PaletteVerse</div>
+    <!-- Added textured background and welcome header for desktop layout -->
+    <div class="welcome-header">
+        <h1>Welcome to PaletteVerse!!</h1>
+    </div>
+    
+    <div class="container">
+        <!-- Mobile single box with role toggle (hidden on desktop) -->
+        <div class="mobile-login-container">
+            <div class="login-box" id="loginBox">
+                <div class="logo-container">
+                    <button class="logo-btn" id="logoBtn">
+                        <img src="grocery-shopping-cart-vector-your-website-mobile-app-grocery-shopping-cart-icon-logo-isolated-white-background-174809962.webp" alt="Logo" class="logo-image" id="logoImage">
+                    </button>
                 </div>
                 
-                <nav class="nav">
-                    <a href="#" class="nav-link active">Home</a>
-                    <a href="#" class="nav-link">Gallery</a>
-                    <a href="#" class="nav-link">Artist</a>
-                    <a href="#" class="nav-link">Contact</a>
-                    <a href="#" class="nav-link">Cart</a>
-                </nav>
-
-                <!-- Added mobile menu button for responsive design -->
-                <div class="mobile-menu-btn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="app-info">
+                    <h1 class="app-name">PaletteVerse</h1>
+                    <p class="role-text" id="roleText">Buyer Login</p>
                 </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-slider">
-                <!-- Updated navigation arrows positioning to be outside the cards container -->
-                <button class="hero-nav prev" id="prevBtn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-
-                <!-- Updated to 3 positioned cards that rotate, with center card being larger -->
-                <div class="hero-cards-container">
-                    <!-- Card 1 -->
-                    <div class="hero-card left-position" data-card="0">
-                        <img src="/placeholder.svg?height=320&width=280" alt="Art Sketch">
-                        <div class="card-price">799</div>
+                
+                <form class="login-form" id="loginForm">
+                    <div class="input-group">
+                        <input type="email" id="email" placeholder="Email" required>
                     </div>
                     
-                    <!-- Card 2 - Center (larger) -->
-                    <div class="hero-card center-position" data-card="1">
-                        <div class="hero-text">
-                            <h1>Sketch has Emotion More than a Photo. Get your Portrait now at a Affordable Price!</h1>
-                            <button class="cta-btn">Order Now</button>
-                        </div>
+                    <div class="input-group">
+                        <input type="password" id="password" placeholder="Password" required>
                     </div>
                     
-                    <!-- Card 3 -->
-                    <div class="hero-card right-position" data-card="2">
-                        <img src="/placeholder.svg?height=320&width=280" alt="Extra Services">
-                        <div class="card-label">extra</div>
-                    </div>
-                </div>
-
-                <button class="hero-nav next" id="nextBtn">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
             </div>
         </div>
-    </section>
 
-    <!-- Featured Products -->
-    <section class="featured-products">
-        <div class="container">
-            <h2 class="section-title">Featured products</h2>
-            
-            <!-- Restructured products grid for equal width and better responsiveness -->
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="prk.jpeg" alt="Puneeth Rajkumar Portrait">
-                        <div class="product-price">199\-</div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Puneeth Rajkumar</h3>
-                        <p class="product-type">Charcoal Sketch</p>
-                        <button class="buy-btn">Buy</button>
-                    </div>
+        <!-- Desktop dual-box layout (hidden on mobile) -->
+        <div class="desktop-login-container">
+            <div class="login-box artist-box">
+                <div class="app-info">
+                    <h2 class="login-title">Login</h2>
+                    <p class="role-text">Artist</p>
                 </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="ak.jpeg" alt="Aamir Khan Portrait">
-                        <div class="product-price">199\-</div>
+                
+                <form class="login-form">
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="" required>
                     </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Aamir Khaan</h3>
-                        <p class="product-type">Pencil Sketch</p>
-                        <button class="buy-btn">Buy</button>
+                    
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="" required>
                     </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="hrx.jpeg" alt="Hrithik Roshan Portrait">
-                        <div class="product-price">199\-</div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Hrithik Roshan</h3>
-                        <p class="product-type">Graphite Sketch</p>
-                        <button class="buy-btn">Buy</button>
-                    </div>
-                </div>
+                    
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
             </div>
 
-            <div class="view-more-container">
-                <button class="view-more-btn">View More</button>
+            <div class="divider"></div>
+
+            <div class="login-box buyer-box">
+                <div class="app-info">
+                    <h2 class="login-title">Login</h2>
+                    <p class="role-text">Buyer</p>
+                </div>
+                
+                <form class="login-form">
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
             </div>
         </div>
-    </section>
-
-    <!-- Linked external JavaScript file instead of inline scripts -->
-    <script src="homeb.js"></script>
+    </div>
+    
+    <script src="login.js"></script>
 </body>
 </html>

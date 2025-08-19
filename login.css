@@ -1,0 +1,414 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Updated to clean black and white minimalistic background */
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f1f3f4 100%);
+  background-color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Added welcome header styling */
+.welcome-header {
+  display: none;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.welcome-header h1 {
+  font-size: 42px;
+  font-weight: 300;
+  color: #000000;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mobile container - visible only on mobile */
+.mobile-login-container {
+  display: block;
+  width: 100%;
+}
+
+/* Desktop container - hidden on mobile */
+.desktop-login-container {
+  display: none;
+  /* Updated gap and alignment to match reference spacing */
+  gap: 60px;
+  align-items: stretch;
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+/* Updated divider styling to match reference */
+.divider {
+  width: 1px;
+  /* Updated divider color to match reference gray tone */
+  background: #000000;
+  min-height: 400px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  /* Added subtle shadow to match reference */
+  opacity: 0.3;
+}
+
+.login-box {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px 30px;
+  width: 100%;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* Updated desktop box styling to match reference colors exactly */
+.artist-box {
+  /* Fine-tuned beige color to match reference exactly */
+  background: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  /* Adjusted margin for precise spacing */
+  margin-right: 30px;
+  transition: all 0.3s ease;
+}
+
+.artist-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  border-color: #333333;
+}
+
+.buyer-box {
+  /* Fine-tuned dark gray to match reference exactly */
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  /* Adjusted margin for precise spacing */
+  margin-left: 30px;
+  transition: all 0.3s ease;
+}
+
+.buyer-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  background: #1a1a1a;
+}
+
+.buyer-box .role-text,
+.buyer-box label {
+  color: #ffffff;
+}
+
+.buyer-box .login-title {
+  color: #ffffff;
+}
+
+.artist-box input {
+  /* Adjusted input color to match reference dark gray */
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  color: #000000;
+  border-radius: 6px;
+  padding: 14px 20px;
+  transition: all 0.3s ease;
+}
+
+.artist-box input:focus {
+  border-color: #000000;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.artist-box input::placeholder {
+  color: #666666;
+}
+
+.buyer-box input {
+  /* Fine-tuned input background to match reference beige */
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #000000;
+  border-radius: 6px;
+  padding: 14px 20px;
+  transition: all 0.3s ease;
+}
+
+.buyer-box input:focus {
+  background: #f8f9fa;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.buyer-box input::placeholder {
+  color: #666666;
+}
+
+.artist-box .login-btn {
+  /* Matched button color to input color for consistency */
+  background: #000000;
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 14px 40px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.artist-box .login-btn:hover {
+  background: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.buyer-box .login-btn {
+  /* Matched button color to input color for consistency */
+  background: #ffffff;
+  color: #000000;
+  border-radius: 6px;
+  padding: 14px 40px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.buyer-box .login-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+}
+
+.logo-container {
+  margin-bottom: 30px;
+}
+
+.logo-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #000000;
+  background: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.logo-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.app-info {
+  margin-bottom: 30px;
+}
+
+.app-name {
+  font-size: 28px;
+  font-weight: 300;
+  color: #000000;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.role-text {
+  font-size: 16px;
+  color: #666666;
+  font-weight: 500;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  position: relative;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  font-size: 16px;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-group input:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-group input::placeholder {
+  color: #999999;
+}
+
+.login-btn {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  background: #333333;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Added rotation animation for mobile logo toggle */
+.rotating {
+  animation: rotate360 0.6s ease-in-out;
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+/* Desktop-specific styling */
+.login-title {
+  font-size: 28px;
+  font-weight: 300;
+  color: #000000;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.input-group label {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Desktop responsive design */
+@media (min-width: 768px) {
+  .welcome-header {
+    display: block;
+  }
+
+  .mobile-login-container {
+    display: none;
+  }
+
+  .desktop-login-container {
+    display: flex;
+  }
+
+  .container {
+    /* Adjusted max-width for better proportions matching reference */
+    max-width: 900px;
+  }
+
+  .login-box {
+    padding: 60px 50px;
+    /* Adjusted height to match reference proportions */
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  .login-box {
+    padding: 30px 25px;
+  }
+
+  .logo-btn {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo-image {
+    width: 44px;
+    height: 44px;
+  }
+
+  .app-name {
+    font-size: 24px;
+  }
+
+  .input-group input,
+  .login-btn {
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-box {
+    padding: 25px 20px;
+  }
+
+  .logo-btn {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-image {
+    width: 36px;
+    height: 36px;
+  }
+
+  .app-name {
+    font-size: 22px;
+  }
+}

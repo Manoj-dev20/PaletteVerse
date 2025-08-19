@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaletteVerse - Art E-commerce</title>
+    <!-- Added Google Fonts for modern typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Open+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <!-- Linked external CSS file instead of inline styles -->
+    <link rel="stylesheet" href="homeb.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <img src="logo.jpeg" alt="PaletteVerse Logo" class="logo-icon">
+                    <div class="logo-text">PaletteVerse</div>
+                </div>
+
+                <nav class="nav">
+                    <a href="#" class="nav-link active">Home</a>
+                    <a href="#" class="nav-link">Gallery</a>
+                    <a href="#" class="nav-link">Artist</a>
+                    <a href="#" class="nav-link">Contact</a>
+                    <a href="#" class="nav-link">Cart</a>
+                </nav>
+
+                <!-- Added mobile menu button for responsive design -->
+                <div class="mobile-menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-slider">
+                <!-- Updated navigation arrows positioning to be outside the cards container -->
+                <button class="hero-nav prev" id="prevBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <!-- Updated to 3 positioned cards that rotate, with center card being larger -->
+                <div class="hero-cards-container">
+                    <!-- Card 1 -->
+                    <!-- Card 1 -->
+<div class="hero-card left-position" data-card="0">
+    <div class="hero-image">
+        <img src="ak.jpeg" alt="Art Sketch">
+    </div>
+    <div class="hero-text">
+        <h1>Winner of this Month's best Artist Congratulations!!</h1>
+        <button class="cta-btn">View profile</button>
+    </div>
+</div>
+
+
+                    <!-- Card 2 - Center (larger) -->
+                    <div class="hero-card center-position" data-card="1">
+                        <div class="hero-text">
+                            <h1>Sketch has Emotion More than a Photo. Get your Portrait now at a Affordable Price!</h1>
+                            <button class="cta-btn">Order Now</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="hero-card right-position" data-card="2">
+                        <div class="hero-text">
+                            <h1>Use your Points to Vote your favorite Artist</h1>
+                            <button class="cta-btn">Vote Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="hero-nav next" id="nextBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <div class="container">
+            <h2 class="section-title">Featured products</h2>
+
+            <!-- Restructured products grid for equal width and better responsiveness -->
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="prk.jpeg" alt="Puneeth Rajkumar Portrait">
+                        <div class="product-price">199\-</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Puneeth Rajkumar</h3>
+                        <p class="product-type">Charcoal Sketch</p>
+                        <button class="buy-btn">Buy</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="ak.jpeg" alt="Aamir Khan Portrait">
+                        <div class="product-price">199\-</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Aamir Khaan</h3>
+                        <p class="product-type">Pencil Sketch</p>
+                        <button class="buy-btn">Buy</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="hrx.jpeg" alt="Hrithik Roshan Portrait">
+                        <div class="product-price">199\-</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Hrithik Roshan</h3>
+                        <p class="product-type">Graphite Sketch</p>
+                        <button class="buy-btn">Buy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-more-container">
+                <button class="view-more-btn">View More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Linked external JavaScript file instead of inline scripts -->
+    <script src="homeb.js"></script>
+</body>
+
+</html>
