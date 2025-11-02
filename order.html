@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - PaletteVerse</title>
+    <link rel="stylesheet" href="order.css">
+</head>
+<body>
+   <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">PaletteVerse</div>
+            <nav class="nav-menu">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="artists.html" class="nav-link">Artists</a>
+                <a href="#" class="nav-link">Contacts</a>
+            </nav>
+            <div class="header-icons">
+                <a href="cart.html" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                </a>
+                <a href="orderttt.html" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <div class="divider"></div>
+                <a href="index.html" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="progress-step completed">
+            <div class="progress-circle">✓</div>
+            <div class="progress-label">Cart</div>
+        </div>
+        <div class="progress-line completed"></div>
+        <div class="progress-step completed">
+            <div class="progress-circle">✓</div>
+            <div class="progress-label">Addresses</div>
+        </div>
+        <div class="progress-line active"></div>
+        <div class="progress-step active">
+            <div class="progress-circle"></div>
+            <div class="progress-label">Payment</div>
+        </div>
+        <div class="progress-line"></div>
+        <div class="progress-step">
+            <div class="progress-circle"></div>
+            <div class="progress-label">Confirm</div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Back Button -->
+        <button class="back-btn">← Back</button>
+
+        <div class="content-wrapper">
+            <!-- Left Section - Payment Methods -->
+            <section class="payment-section">
+                <!-- Registered Cards -->
+                <div class="registered-cards">
+                    <h2 class="section-title">
+                        <span class="icon">💳</span> Registered cards
+                    </h2>
+                    
+                    <div class="cards-list">
+                        <div class="card-item selected">
+                            <input type="radio" name="payment" id="card1" checked>
+                            <label for="card1">
+                                <div class="card-header">
+                                    <span class="bank-type">Bank</span>
+                                    <span class="son-dort">Son dört hane</span>
+                                    <span class="name-col">Name</span>
+                                    <span class="cvv-col">CVV</span>
+                                </div>
+                                <div class="card-details">
+                                    <span class="bank-name">SBI</span>
+                                    <span class="last-four">1234</span>
+                                    <span class="card-holder">Hızır Kocaman</span>
+                                    <span class="cvv">12/34</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="card-item">
+                            <input type="radio" name="payment" id="card2">
+                            <label for="card2">
+                                <div class="card-header">
+                                    <span class="bank-type">Bank</span>
+                                    <span class="son-dort">Son dört hane</span>
+                                    <span class="name-col">Name</span>
+                                    <span class="cvv-col">CVV</span>
+                                </div>
+                                <div class="card-details">
+                                    <span class="bank-name">HDFC</span>
+                                    <span class="last-four">1234</span>
+                                    <span class="card-holder">Jane Cooper</span>
+                                    <span class="cvv">12/34</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add New Card -->
+                <div class="add-new-card">
+                    <div class="add-card-header">
+                        <div class="add-card-title">
+                            <span class="checkbox">✓</span>
+                            Add new card
+                        </div>
+                        <div class="payment-icons">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MC_logo.svg/1200px-MC_logo.svg.png" alt="Mastercard" class="payment-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" alt="Visa" class="payment-icon">
+                            <span class="troy-text">troy</span>
+                        </div>
+                    </div>
+
+                    <form class="card-form">
+                        <div class="form-group">
+                            <label for="card-number">Card number</label>
+                            <p class="form-hint">Enter the 16-digit card number on the card</p>
+                            <div class="input-wrapper">
+                                <span class="card-icon">💳</span>
+                                <input type="text" id="card-number" placeholder="Enter card number" maxlength="16">
+                                <span class="check-mark">✓</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="card-owner">Card owner</label>
+                            <p class="form-hint">Enter the name on the card</p>
+                            <input type="text" id="card-owner" placeholder="Enter card owner name">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiry">Expiry date</label>
+                                <p class="form-hint">Enter the expiration date of the card</p>
+                                <div class="expiry-inputs">
+                                    <input type="text" id="expiry" placeholder="MM" maxlength="2" class="expiry-input">
+                                    <span class="separator">/</span>
+                                    <input type="text" id="expiry-year" placeholder="YY" maxlength="2" class="expiry-input">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cvv">CVV2</label>
+                                <p class="form-hint">Security code</p>
+                                <input type="text" id="cvv" placeholder="012" maxlength="3">
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="set-default">
+                        <input type="checkbox" id="default-check">
+                        <label for="default-check">Set us default</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Section - Order Details -->
+            <aside class="order-details">
+                <h2 class="section-title">
+                    <span class="icon">📋</span> Order Details
+                </h2>
+
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Portion</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="product-item">
+                                    <img src="/placeholder.svg?height=50&width=50" alt="Puneeth Rajkumar" class="product-image">
+                                    <span>Puneeth Rajkumar</span>
+                                </div>
+                            </td>
+                            <td>1</td>
+                            <td>2,000₹</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="product-item">
+                                    <img src="/placeholder.svg?height=50&width=50" alt="Puneeth Rajkumar" class="product-image">
+                                    <span>Puneeth Rajkumar</span>
+                                </div>
+                            </td>
+                            <td>1</td>
+                            <td>2,000₹</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="total-section">
+                    <span>Total:</span>
+                    <span class="total-amount">4,000₹</span>
+                </div>
+
+                <a href="orderttt.html" class="review-btn" id="reviewBtn">Review your order</a>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>PaletteVerse</h3>
+                <p>We help you Feel<br>Happy with Our Art</p>
+                <div class="social-icons">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">📷</a>
+                    <a href="#" class="social-icon">𝕏</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Product</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Carrier</a></li>
+                    <li><a href="#">Our story</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>2023 all Right Reserved Term of use GREENMIND</p>
+        </div>
+    </footer>
+
+    <script src="order.js"></script>
+</body>
+</html>

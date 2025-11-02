@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artist Profile - PaletteVerse</title>
+    <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+   <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">PaletteVerse</div>
+            <nav class="nav-menu">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="gallery.html" class="nav-link">Gallery</a>
+                <a href="artists.html" class="nav-link">Artists</a>
+                <a href="#" class="nav-link">Contacts</a>
+            </nav>
+            <div class="header-icons">
+                <a href="cart.html" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                </a>
+                <a href="orderttt.html" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <div class="divider"></div>
+                <a href="index.html" class="icon-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-image-container">
+                <div class="image-wrapper">
+                    <img src="Gemini_Generated_Image_5ntvzb5ntvzb5ntv-removebg-preview.png" alt="Artist Hasna" class="hero-image">
+                </div>
+                <h1 class="artist-name">Manoj D</h1>
+            </div>
+
+            <!-- Why Me Section -->
+            <div class="why-me">
+                <h2>Why Me</h2>
+                <p>Whether article spirits new her covered hostly sitting her. Money witty books nor son add. Chicken age had evening believe but proceed pretend mrs.</p>
+                <p>At missed advice my if no sister. Miss told ham dull knew see the spot near. Spirit her entire her called. Distract yet delight written.</p>
+                <button class="order-btn">Order A Sketch</button>
+            </div>
+        </section>
+
+        <!-- Latest Work Section -->
+        <section class="latest-work">
+            <h2>Latest Work</h2>
+            <div class="portfolio-grid">
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop" alt="Portfolio 1">
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop" alt="Portfolio 2">
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop" alt="Portfolio 3">
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=300&fit=crop" alt="Portfolio 4">
+                </div>
+            </div>
+            <a href="#" class="view-all">view all</a>
+        </section>
+    </div>
+ <!-- Widget Configuration -->
+<script>
+window.ChatWidgetConfig = {
+  webhook: {
+    url: 'https://miniproject.app.n8n.cloud/webhook/b8097170-5a8a-455b-96c4-0d1a74405295/chat',
+    route: 'general'
+  },
+  branding: {
+    logo: '<your company logo URL>',
+    name: 'Manoj"s Assistant', // Your company name
+    welcomeText: 'Hi 👋, how can we help?', // Welcome message
+    responseTimeText: 'We typically respond right away' // Response time message
+  },
+  style: {
+    primaryColor: '#854fff', // Primary color
+    secondaryColor: '#6b3fd4', // Secondary color
+    position: 'right', // Position of the widget (left or right)
+    backgroundColor: '#ffffff', // Background color of the chat widget
+    fontColor: '#333333' // Text color for messages and interface
+  }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/gh/WayneSimpson/n8n-chatbot-template@ba944c3/chat-widget.js"></script>
+<!-- Widget Script -->
+    <script src="script.js"></script>
+</body>
+</html>
