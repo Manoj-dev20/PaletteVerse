@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio - Artist Portfolio Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">PaletteVerse</div>
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">Portfolio</a>
+                <a href="#" class="nav-link">Tasks/Challenges</a>
+                <a href="#" class="nav-link">Chats</a>
+            </nav>
+           
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Portfolio Header Section -->
+        <div class="portfolio-header">
+            <div class="portfolio-intro">
+                <h1>My Portfolio</h1>
+                <p>Manage and showcase your artistic creations</p>
+            </div>
+            <div class="portfolio-actions">
+                <button class="btn btn-secondary">
+                    <span class="icon">⚙️</span>
+                    Manage Portfolio
+                </button>
+                <button class="btn btn-primary" id="uploadArtworkBtn">
+                    <span class="icon">⬆️</span>
+                    Upload Artwork
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state hidden">
+            <div class="empty-state-content">
+                <div class="empty-state-icon">🎨</div>
+                <h2>No Artwork Yet</h2>
+                <p>Upload your Artwork</p>
+                <button class="btn btn-primary" id="emptyStateUploadBtn">
+                    Upload your first artwork
+                </button>
+            </div>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div id="portfolioGrid" class="portfolio-grid hidden">
+            <!-- Posts will be dynamically added here -->
+        </div>
+    </main>
+
+    <!-- Modal for Upload/Edit -->
+    <div id="artworkModal" class="modal hidden">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Upload Artwork</h2>
+                <button class="modal-close" id="modalCloseBtn">&times;</button>
+            </div>
+
+            <form id="artworkForm" class="artwork-form">
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label for="artworkImage" class="form-label">Artwork Image <span class="required">*</span></label>
+                    <div class="image-upload" id="imageUpload">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <p class="upload-text">Click to upload image</p>
+                        <p class="upload-subtext">PNG, JPG up to 10MB</p>
+                        <input type="file" id="artworkImage" class="file-input" accept="image/*">
+                    </div>
+                    <div id="imagePreview" class="image-preview hidden">
+                        <img id="previewImg" src="/placeholder.svg" alt="Preview">
+                        <button type="button" class="change-image-btn" id="changeImageBtn">Change Image</button>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="artworkTitle" class="form-label">Title <span class="required">*</span></label>
+                    <input type="text" id="artworkTitle" class="form-input" placeholder="Enter artwork title" required>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="artworkDescription" class="form-label">Description</label>
+                    <textarea id="artworkDescription" class="form-textarea" placeholder="Describe your artwork..."></textarea>
+                </div>
+
+                <!-- Category and Paper Size in Two Columns -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="artworkCategory" class="form-label">Category <span class="required">*</span></label>
+                        <select id="artworkCategory" class="form-select" required>
+                            <option value="">Select category</option>
+                            <option value="painting">Painting</option>
+                            <option value="drawing">Drawing</option>
+                            <option value="sculpture">Sculpture</option>
+                            <option value="photography">Photography</option>
+                            <option value="digital">Digital Art</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="artworkPaperSize" class="form-label">Paper Size <span class="required">*</span></label>
+                        <select id="artworkPaperSize" class="form-select" required>
+                            <option value="">Select size</option>
+                            <option value="a4">A4 (8.3 × 11.7 in)</option>
+                            <option value="a3">A3 (11.7 × 16.5 in)</option>
+                            <option value="a2">A2 (16.5 × 23.4 in)</option>
+                            <option value="a1">A1 (23.4 × 33.1 in)</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                    <label for="artworkPrice" class="form-label">Price (USD) <span class="required">*</span></label>
+                    <input type="number" id="artworkPrice" class="form-input" placeholder="0.00" min="0" step="0.01" required>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="modalCancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">Upload Artwork</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 class="footer-title">PaletteVerse</h3>
+                <p class="footer-tagline">We help you Feel<br>Happy with Our Art</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a6 6 0 0 0-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 0 1 2-2h3z"></path>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="white"></path>
+                            <circle cx="17.5" cy="6.5" r="1.5" fill="white"></circle>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2s9 5 20 5a9.5 9.5 0 0 0-9-5.5c4.75 2.25 7-7 7-7"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Information</h4>
+                <ul class="footer-links">
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Product</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Company</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Career</a></li>
+                    <li><a href="#">Our story</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-heading">Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>2023 all Right Reserved Term of use GREENMIND</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
