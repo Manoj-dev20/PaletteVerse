@@ -98,7 +98,7 @@ function handleLogin(userType, form) {
 
     setTimeout(() => {
       window.location.href = "home.html"
-      window.location.href = "dashboard.html" // Replace "home.html" with your actual homepage path
+      // Replace "home.html" with your actual homepage path
     }, 500)
   }, 1500)
 }
