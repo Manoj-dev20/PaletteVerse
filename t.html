@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaletteVerse - Tasks & Challenges</title>
+    <link rel="stylesheet" href="t.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">PaletteVerse</div>
+            <nav class="nav-menu">
+                <a href="artd.html" class="nav-link">Home</a>
+                <a href="aportfolio.html" class="nav-link">Portfolio</a>
+                <a href="t.html" class="nav-link">Tasks/Challenges</a>
+                <a href="chat.html" class="nav-link">Chats</a>
+            </nav>
+           
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <span>Tasks & Challenges</span>
+                <span style="font-size: 24px;">💝</span>
+            </div>
+            <div class="header-subtitle">Complete social art tasks or creative challenges to earn points and get closer to the Spotlight!</div>
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <div class="progress-header">
+                <div class="progress-label">Monthly Progress</div>
+                <div class="progress-points">420 / 1000 points</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Community Tasks -->
+        <div style="margin-bottom: 50px;">
+            <div class="section-header">
+                <span class="section-title">Community Tasks</span>
+                <span class="emoji">👥</span>
+            </div>
+            <div class="section-subtitle">Take part in art-for-good activities and earn bonus points.</div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-title">Beautify a Wall in Your Local Area</div>
+                    <div class="card-description">Create street art that brightens up your community. Take before and aft...</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+100 pts</span>
+                        <span class="expiry">⏱ Expires in 3 days</span>
+                    </div>
+                    <button class="card-button" data-modal="taskModal1">View Details</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Art Workshop for Kids</div>
+                    <div class="card-description">Conduct a free art session for children in your community and share...</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+150 pts</span>
+                        <span class="expiry">⏱ Expires in 5 days</span>
+                    </div>
+                    <button class="card-button" data-modal="taskModal2">View Details</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Create Art from Recycled Materials</div>
+                    <div class="card-description">Make something beautiful from waste materials and inspire sustainable art...</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+80 pts</span>
+                        <span class="expiry">⏱ Expires in 7 days</span>
+                    </div>
+                    <button class="card-button" data-modal="taskModal3">View Details</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Public Art Installation</div>
+                    <div class="card-description">Install a temporary art piece in a public space with proper permissions.</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+200 pts</span>
+                        <span class="expiry">⏱ Expires in 10 days</span>
+                    </div>
+                    <button class="card-button" data-modal="taskModal4">View Details</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Challenges -->
+        <div style="margin-bottom: 50px;">
+            <div class="section-header">
+                <span class="section-title">Weekly Art Challenges</span>
+                <span class="emoji">🏆</span>
+            </div>
+            <div class="section-subtitle">Show your creativity and compete with other artists.</div>
+
+            <div class="cards-grid">
+                <div class="challenge-card">
+                    <div class="challenge-title">
+                        <span class="challenge-icon">🎨</span>
+                        <span>Festival Spirit Sketch</span>
+                    </div>
+                    <div class="challenge-description">Draw something that celebrates light and color - capture the joy and ener...</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+120 pts</span>
+                        <span class="expiry">⏱ Ends in 4 days</span>
+                    </div>
+                    <button class="card-button-outline" data-modal="challengeModal1">Participate</button>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-title">
+                        <span class="challenge-icon">🌆</span>
+                        <span>Urban Dreams</span>
+                    </div>
+                    <div class="challenge-description">Illustrate your vision of the perfect city - blend reality with imagination</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+100 pts</span>
+                        <span class="expiry">⏱ Ends in 6 days</span>
+                    </div>
+                    <button class="card-button-outline" data-modal="challengeModal2">Participate</button>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-title">
+                        <span class="challenge-icon">🌿</span>
+                        <span>Nature's Patterns</span>
+                    </div>
+                    <div class="challenge-description">Explore and recreate the mathematical beauty found in nature</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+90 pts</span>
+                        <span class="expiry">⏱ Ends in 5 days</span>
+                    </div>
+                    <button class="card-button-outline" data-modal="challengeModal3">Participate</button>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-title">
+                        <span class="challenge-icon">💭</span>
+                        <span>Emotional Landscapes</span>
+                    </div>
+                    <div class="challenge-description">Create an abstract piece that represents a specific emotion throug...</div>
+                    <div class="card-meta">
+                        <span class="points-badge">+110 pts</span>
+                        <span class="expiry">⏱ Ends in 8 days</span>
+                    </div>
+                    <button class="card-button-outline" data-modal="challengeModal4">Participate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Artists Leaderboard -->
+        <div class="leaderboard">
+            <div class="section-header">
+                <span class="section-title">Top Artists This Week</span>
+                <span class="emoji">☀️</span>
+            </div>
+            <div class="section-subtitle">See who's leading the spotlight race this week.</div>
+
+            <div class="leaderboard-list">
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">
+                        <span class="medal">🥇</span>
+                        <div class="artist-info">
+                            <div class="artist-avatar">A</div>
+                            <span class="artist-name">ArtistManoj</span>
+                        </div>
+                         <div class="leaderboard-points-section">
+                       
+                        <a href="l.html" class="view-profile-btn">View Profile</a>
+                    </div>
+                    </div>
+                    <div class="leaderboard-points">1250 pts</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">
+                        <span class="medal">🥈</span>
+                        <div class="artist-info">
+                            <div class="artist-avatar">P</div>
+                            <span class="artist-name">PixelDreamer</span>
+                        </div>
+
+                         <div class="leaderboard-points-section">
+                       
+                        <a href="l.html" class="view-profile-btn">View Profile</a>
+                    </div>
+
+
+                    </div>
+                    <div class="leaderboard-points">1180 pts</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">
+                        <span class="medal">🥉</span>
+                        <div class="artist-info">
+                            <div class="artist-avatar">C</div>
+                            <span class="artist-name">ColorWhisperer</span>
+                        </div>
+                         <div class="leaderboard-points-section">
+                       
+                        <a href="l.html" class="view-profile-btn">View Profile</a>
+                    </div>
+                    </div>
+                    <div class="leaderboard-points">1050 pts</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">
+                        <span class="rank-number">#4</span>
+                        <div class="artist-info">
+                            <div class="artist-avatar">U</div>
+                            <span class="artist-name">UrbanCanvas</span>
+                        </div>
+                         <div class="leaderboard-points-section">
+                       
+                        <a href="l.html" class="view-profile-btn">View Profile</a>
+                    </div>
+                    </div>
+                    <div class="leaderboard-points">920 pts</div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank">
+                        <span class="rank-number">#5</span>
+                        <div class="artist-info">
+                            <div class="artist-avatar">A</div>
+                            <span class="artist-name">AbstractMind</span>
+                        </div>
+                         <div class="leaderboard-points-section">
+                       
+                        <a href="l.html" class="view-profile-btn">View Profile</a>
+                    </div>
+                    </div>
+                    <div class="leaderboard-points">880 pts</div>
+                </div>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <!-- Task Modals -->
+    <div class="modal" id="taskModal1">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Beautify a Wall in Your Local Area</div>
+            <div class="modal-description">Create street art that brightens up your community. Take before and after photos.</div>
+
+            <div class="modal-section-title">Full Description</div>
+            <div class="modal-description">Transform a blank wall in your neighborhood into vibrant street art. This project aims to brighten communities and make public spaces more engaging. Document your process and the final result.</div>
+
+            <div class="modal-section-title">Rules & Guidelines</div>
+            <ul class="modal-section-list">
+                <li>Must have permission from property owner</li>
+                <li>Project must be completed within 2 weeks</li>
+                <li>Submit photos of before, during, and after</li>
+                <li>Artwork must be family-friendly and community-focused</li>
+            </ul>
+
+            <div class="modal-section-title">Upload Proof (Image/Video)</div>
+            <div class="upload-area" data-upload="taskModal1">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload or drag and drop</div>
+                <div class="upload-subtext">PNG, JPG, MP4 up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*,video/*">
+            </div>
+            <div class="uploaded-content" data-content="taskModal1"></div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Task</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="taskModal2">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Art Workshop for Kids</div>
+            <div class="modal-description">Conduct a free art session for children in your community and share photos/videos.</div>
+
+            <div class="modal-section-title">Full Description</div>
+            <div class="modal-description">Organize and lead a creative art workshop for kids in your local area. Help inspire the next generation of artists while giving back to your community.</div>
+
+            <div class="modal-section-title">Rules & Guidelines</div>
+            <ul class="modal-section-list">
+                <li>Minimum 5 participants</li>
+                <li>Session must be at least 1 hour long</li>
+                <li>Submit photos and brief summary</li>
+                <li>All materials must be safe for children</li>
+            </ul>
+
+            <div class="modal-section-title">Upload Proof (Image/Video)</div>
+            <div class="upload-area" data-upload="taskModal2">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload or drag and drop</div>
+                <div class="upload-subtext">PNG, JPG, MP4 up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*,video/*">
+            </div>
+            <div class="uploaded-content" data-content="taskModal2"></div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Task</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="taskModal3">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Create Art from Recycled Materials</div>
+            <div class="modal-description">Make something beautiful from waste materials and inspire sustainable art.</div>
+
+            <div class="modal-section-title">Full Description</div>
+            <div class="modal-description">Create an artistic piece using recycled or repurposed materials. Show creativity in transforming waste into art and promote sustainability awareness.</div>
+
+            <div class="modal-section-title">Rules & Guidelines</div>
+            <ul class="modal-section-list">
+                <li>Must use at least 70% recycled materials</li>
+                <li>Artwork must be functional or displayable</li>
+                <li>Submit photos showing materials used</li>
+                <li>Include description of sustainability message</li>
+            </ul>
+
+            <div class="modal-section-title">Upload Proof (Image/Video)</div>
+            <div class="upload-area" data-upload="taskModal3">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload or drag and drop</div>
+                <div class="upload-subtext">PNG, JPG, MP4 up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*,video/*">
+            </div>
+            <div class="uploaded-content" data-content="taskModal3"></div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Task</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="taskModal4">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Public Art Installation</div>
+            <div class="modal-description">Install a temporary art piece in a public space with proper permissions.</div>
+
+            <div class="modal-section-title">Full Description</div>
+            <div class="modal-description">Create and install a temporary art installation in a public space. Engage your community with interactive or thought-provoking artwork.</div>
+
+            <div class="modal-section-title">Rules & Guidelines</div>
+            <ul class="modal-section-list">
+                <li>Must obtain necessary permits or permissions</li>
+                <li>Installation must be temporary (max 30 days)</li>
+                <li>Submit documentation of installation</li>
+                <li>Must be safe and non-damaging to public space</li>
+            </ul>
+
+            <div class="modal-section-title">Upload Proof (Image/Video)</div>
+            <div class="upload-area" data-upload="taskModal4">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload or drag and drop</div>
+                <div class="upload-subtext">PNG, JPG, MP4 up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*,video/*">
+            </div>
+            <div class="uploaded-content" data-content="taskModal4"></div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Modals -->
+    <div class="modal" id="challengeModal1">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Festival Spirit Sketch</div>
+            <div class="modal-description">Draw something that celebrates light and color - capture the joy and energy of festivals.</div>
+
+            <div class="modal-section-title">Upload Your Artwork</div>
+            <div class="upload-area" data-upload="challengeModal1">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload your artwork</div>
+                <div class="upload-subtext">PNG, JPG up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*">
+            </div>
+            <div class="uploaded-content" data-content="challengeModal1"></div>
+
+            <div class="form-group">
+                <label class="form-label">Caption / Concept Note</label>
+                <textarea class="form-textarea" placeholder="Share your creative concept and inspiration..."></textarea>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="challengeModal2">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Urban Dreams</div>
+            <div class="modal-description">Illustrate your vision of the perfect city - blend reality with imagination</div>
+
+            <div class="modal-section-title">Upload Your Artwork</div>
+            <div class="upload-area" data-upload="challengeModal2">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload your artwork</div>
+                <div class="upload-subtext">PNG, JPG up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*">
+            </div>
+            <div class="uploaded-content" data-content="challengeModal2"></div>
+
+            <div class="form-group">
+                <label class="form-label">Caption / Concept Note</label>
+                <textarea class="form-textarea" placeholder="Share your creative concept and inspiration..."></textarea>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="challengeModal3">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Nature's Patterns</div>
+            <div class="modal-description">Explore and recreate the mathematical beauty found in nature</div>
+
+            <div class="modal-section-title">Upload Your Artwork</div>
+            <div class="upload-area" data-upload="challengeModal3">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload your artwork</div>
+                <div class="upload-subtext">PNG, JPG up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*">
+            </div>
+            <div class="uploaded-content" data-content="challengeModal3"></div>
+
+            <div class="form-group">
+                <label class="form-label">Caption / Concept Note</label>
+                <textarea class="form-textarea" placeholder="Share your creative concept and inspiration..."></textarea>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="challengeModal4">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title">Emotional Landscapes</div>
+            <div class="modal-description">Create an abstract piece that represents a specific emotion through art.</div>
+
+            <div class="modal-section-title">Upload Your Artwork</div>
+            <div class="upload-area" data-upload="challengeModal4">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">Click to upload your artwork</div>
+                <div class="upload-subtext">PNG, JPG up to 10MB</div>
+                <input type="file" class="file-input" accept="image/*">
+            </div>
+            <div class="uploaded-content" data-content="challengeModal4"></div>
+
+            <div class="form-group">
+                <label class="form-label">Caption / Concept Note</label>
+                <textarea class="form-textarea" placeholder="Share your creative concept and inspiration..."></textarea>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="btn-cancel close-modal">Cancel</button>
+                <button class="btn-submit">Submit Entry</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="t.js"></script>
+</body>
+</html>

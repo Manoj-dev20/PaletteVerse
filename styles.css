@@ -348,7 +348,7 @@ body {
    ============================================ */
 
 .modal {
-  display: flex;
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -361,8 +361,8 @@ body {
   transition: var(--transition);
 }
 
-.modal.hidden {
-  display: none;
+.modal.active {
+  display: flex;
 }
 
 .modal-content {

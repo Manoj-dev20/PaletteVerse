@@ -56,15 +56,15 @@ const signupForm = document.getElementById("signupForm")
 
 buyerForm.addEventListener("submit", (e) => {
   e.preventDefault()
-  handleLogin("Buyer", buyerForm)
+  handleLogin("Buyer", buyerForm, "home.html")
 })
 
 artistForm.addEventListener("submit", (e) => {
   e.preventDefault()
-  handleLogin("Artist", artistForm)
+  handleLogin("Artist", artistForm, "artd.html")
 })
 
-function handleLogin(userType, form) {
+function handleLogin(userType, form, redirectUrl) {
   const emailInput = form.querySelector('input[type="email"]')
   const passwordInput = form.querySelector('input[type="password"]')
   const submitBtn = form.querySelector(".btn-login")
@@ -97,8 +97,7 @@ function handleLogin(userType, form) {
     form.reset()
 
     setTimeout(() => {
-      window.location.href = "home.html"
-      // Replace "home.html" with your actual homepage path
+      window.location.href = redirectUrl
     }, 500)
   }, 1500)
 }
