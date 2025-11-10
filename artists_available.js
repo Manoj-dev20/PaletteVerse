@@ -1,8 +1,8 @@
 const memberPageRoutes = {
-  elena: "portfolio.html",
+  elena: "#",
   tobias: "/team/tobias-schmidt",
   amara: "/team/amara-chen",
-  julian: "/team/julian-reyes",
+  julian: "artist_profile.html",
   sofia: "/team/sofia-ivanova",
   miles: "/team/miles-carter",
 }
