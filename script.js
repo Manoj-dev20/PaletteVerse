@@ -56,12 +56,12 @@ const signupForm = document.getElementById("signupForm")
 
 buyerForm.addEventListener("submit", (e) => {
   e.preventDefault()
-  handleLogin("Buyer", buyerForm, "home.html")
+  handleLogin("Buyer", buyerForm, "buyer_dashboard.html")
 })
 
 artistForm.addEventListener("submit", (e) => {
   e.preventDefault()
-  handleLogin("Artist", artistForm, "artd.html")
+  handleLogin("Artist", artistForm, "artist_dashboard.html")
 })
 
 function handleLogin(userType, form, redirectUrl) {
