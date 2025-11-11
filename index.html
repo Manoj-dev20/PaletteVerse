@@ -3,125 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PaletteVerse - Dual Login</title>
+    <title>Login & Signup - The Coding Wizard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1 class="logo">PaletteVerse</h1>
-                <p class="tagline">Creative Marketplace</p>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <div class="login-wrapper">
-                <!-- Buyer Login -->
-                <div class="login-card buyer-card">
-                    <div class="card-header">
-                        <h2>Buyer Login</h2>
-                        <p class="card-subtitle">Discover & Collect</p>
+        <!-- Role Selection Screen -->
+        <div class="role-selection-wrapper" id="roleSelectionContent">
+            <div class="role-selection">
+                <h2 class="role-title">Choose Your Role</h2>
+                <p class="role-subtitle">Get started as a buyer or artist</p>
+                
+                <div class="role-cards">
+                    <div class="role-card buyer-role" onclick="selectRole('buyer')">
+                        <div class="role-icon">👤</div>
+                        <h3>Buyer</h3>
+                        <p>Discover & Collect artwork</p>
+                        <button class="btn btn-select">Continue as Buyer</button>
                     </div>
-                    <form class="login-form" id="buyerForm">
-                        <div class="form-group">
-                            <label for="buyer-email">Email Address</label>
-                            <input type="email" id="buyer-email" placeholder="your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="buyer-password">Password</label>
-                            <input type="password" id="buyer-password" placeholder="••••••••" required>
-                        </div>
-                        <div class="form-options">
-                            <label class="remember-me">
-                                <input type="checkbox">
-                                <span>Remember me</span>
-                            </label>
-                            <a href="#" class="forgot-link">Forgot password?</a>
-                        </div>
-                        <button type="submit" class="btn btn-login">Sign In</button>
-                    </form>
-                    <div class="card-footer">
-                        <p>Don't have an account? <a href="#" class="signup-link">Sign up</a></p>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="divider"></div>
-
-                <!-- Artist Login -->
-                <div class="login-card artist-card">
-                    <div class="card-header">
-                        <h2>Artist Login</h2>
-                        <p class="card-subtitle">Create & Showcase</p>
-                    </div>
-                    <form class="login-form" id="artistForm">
-                        <div class="form-group">
-                            <label for="artist-email">Email Address</label>
-                            <input type="email" id="artist-email" placeholder="your@email.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="artist-password">Password</label>
-                            <input type="password" id="artist-password" placeholder="••••••••" required>
-                        </div>
-                        <div class="form-options">
-                            <label class="remember-me">
-                                <input type="checkbox">
-                                <span>Remember me</span>
-                            </label>
-                            <a href="#" class="forgot-link">Forgot password?</a>
-                        </div>
-                        <button type="submit" class="btn btn-login">Sign In</button>
-                    </form>
-                    <div class="card-footer">
-                        <p>New artist? <a href="#" class="signup-link">Apply here</a></p>
+                    
+                    <div class="role-card artist-role" onclick="selectRole('artist')">
+                        <div class="role-icon">🎨</div>
+                        <h3>Artist</h3>
+                        <p>Create & Showcase your art</p>
+                        <button class="btn btn-select">Continue as Artist</button>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2025 PaletteVerse. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Contact</a>
+        <!-- Auth Content -->
+        <div class="auth-wrapper hidden" id="authContent">
+            <!-- Buyer Login Form -->
+            <div class="auth-card hidden" id="buyerLoginCard">
+                <div class="auth-container">
+                    <div class="welcome-section">
+                        <button class="btn-back" onclick="goBack()">&larr;</button>
+                        <h2 class="welcome-title">Buyer Login</h2>
+                        <p class="welcome-text">Welcome back to The Coding Wizard! Discover and collect amazing artwork from talented artists.</p>
+                        <div class="instagram-icon">👤</div>
+                    </div>
+
+                    <div class="form-section">
+                        <form class="login-form" id="buyerLoginForm">
+                            <div class="form-group">
+                                <label for="buyer-login-username">Username</label>
+                                <input type="text" id="buyer-login-username" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="buyer-login-password">Password</label>
+                                <input type="password" id="buyer-login-password" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-login">Login</button>
+                        </form>
+                        <div class="form-footer">
+                            <p>Don't have an account? <a href="#" class="signup-link" onclick="switchToSignup(event)">Sign up</a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </footer>
+
+            <!-- Artist Login Form -->
+            <div class="auth-card hidden" id="artistLoginCard">
+                <div class="auth-container">
+                    <div class="welcome-section">
+                        <button class="btn-back" onclick="goBack()">&larr;</button>
+                        <h2 class="welcome-title">Artist Login</h2>
+                        <p class="welcome-text">Welcome back to The Coding Wizard! Create and showcase your artwork to the world.</p>
+                        <div class="instagram-icon">🎨</div>
+                    </div>
+
+                    <div class="form-section">
+                        <form class="login-form" id="artistLoginForm">
+                            <div class="form-group">
+                                <label for="artist-login-username">Username</label>
+                                <input type="text" id="artist-login-username" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="artist-login-password">Password</label>
+                                <input type="password" id="artist-login-password" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-login">Login</button>
+                        </form>
+                        <div class="form-footer">
+                            <p>Don't have an account? <a href="#" class="signup-link" onclick="switchToSignup(event)">Sign up</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buyer Signup Form -->
+            <div class="auth-card hidden" id="buyerSignupCard">
+                <div class="auth-container">
+                    <div class="welcome-section">
+                        <button class="btn-back" onclick="switchToLogin()">&larr;</button>
+                        <h2 class="welcome-title">Buyer Register</h2>
+                        <p class="welcome-text">Create your buyer account and start discovering incredible artwork from talented artists worldwide.</p>
+                        <div class="instagram-icon">👤</div>
+                    </div>
+
+                    <div class="form-section">
+                        <form class="signup-form" id="buyerSignupForm">
+                            <div class="form-group">
+                                <label for="buyer-signup-username">Username</label>
+                                <input type="text" id="buyer-signup-username" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="buyer-signup-email">Email</label>
+                                <input type="email" id="buyer-signup-email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="buyer-signup-password">Password</label>
+                                <input type="password" id="buyer-signup-password" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-login">Register</button>
+                        </form>
+                        <div class="form-footer">
+                            <p>Already have an account? <a href="#" class="signup-link" onclick="switchToLogin()">Sign in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artist Signup Form -->
+            <div class="auth-card hidden" id="artistSignupCard">
+                <div class="auth-container">
+                    <div class="welcome-section">
+                        <button class="btn-back" onclick="switchToLogin()">&larr;</button>
+                        <h2 class="welcome-title">Artist Register</h2>
+                        <p class="welcome-text">Join our creative community and showcase your amazing artwork to collectors around the globe.</p>
+                        <div class="instagram-icon">🎨</div>
+                    </div>
+
+                    <div class="form-section">
+                        <form class="signup-form" id="artistSignupForm">
+                            <div class="form-group">
+                                <label for="artist-signup-username">Username</label>
+                                <input type="text" id="artist-signup-username" placeholder="Enter your username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="artist-signup-email">Email</label>
+                                <input type="email" id="artist-signup-email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="artist-signup-password">Password</label>
+                                <input type="password" id="artist-signup-password" placeholder="••••••••" required>
+                            </div>
+                            <button type="submit" class="btn-login">Register</button>
+                        </form>
+                        <div class="form-footer">
+                            <p>Already have an account? <a href="#" class="signup-link" onclick="switchToLogin()">Sign in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
-
-    <!-- Sign Up Modal -->
-    <div id="signupModal" class="modal hidden">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <h2>Create Account</h2>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" placeholder="John Doe" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-email">Email Address</label>
-                    <input type="email" id="signup-email" placeholder="your@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" placeholder="••••••••" required>
-                </div>
-                <div class="form-group">
-                    <label for="signup-confirm">Confirm Password</label>
-                    <input type="password" id="signup-confirm" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="btn btn-login">Create Account</button>
-            </form>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
