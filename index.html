@@ -8,105 +8,102 @@
 </head>
 <body>
     <div class="container">
-        <!-- Role Selection Screen -->
-        <div class="role-selection-wrapper" id="roleSelectionContent">
+        <!-- ROLE SELECTION SCREEN -->
+        <div id="roleSelectionContent" class="role-selection-wrapper">
             <div class="role-selection">
-                <h2 class="role-title">Choose Your Role</h2>
+                <h1 class="role-title">Choose Your Role</h1>
                 <p class="role-subtitle">Get started as a buyer or artist</p>
-                
                 <div class="role-cards">
+                    <!-- BUYER ROLE -->
                     <div class="role-card buyer-role" onclick="selectRole('buyer')">
                         <div class="role-icon">👤</div>
                         <h3>Buyer</h3>
                         <p>Discover & Collect artwork</p>
-                        <button class="btn btn-select">Continue as Buyer</button>
+                        <button class="btn-select">Continue as Buyer</button>
                     </div>
-                    
+                    <!-- ARTIST ROLE -->
                     <div class="role-card artist-role" onclick="selectRole('artist')">
                         <div class="role-icon">🎨</div>
                         <h3>Artist</h3>
                         <p>Create & Showcase your art</p>
-                        <button class="btn btn-select">Continue as Artist</button>
+                        <button class="btn-select">Continue as Artist</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Auth Content -->
-        <div class="auth-wrapper hidden" id="authContent">
-            <!-- Buyer Login Form -->
-            <div class="auth-card hidden" id="buyerLoginCard">
+        <!-- AUTH WRAPPER (HIDDEN BY DEFAULT) -->
+        <div id="authContent" class="hidden auth-wrapper">
+            <!-- BUYER LOGIN CARD -->
+            <div id="buyerLoginCard" class="auth-card hidden">
                 <div class="auth-container">
                     <div class="welcome-section">
-                        <button class="btn-back" onclick="goBack()">&larr;</button>
-                        <h2 class="welcome-title">Buyer Login</h2>
-                        <p class="welcome-text">Welcome back to PaletteVerse! Discover and collect amazing artwork from talented artists.</p>
-                        <div class="instagram-icon">👤</div>
+                        <button class="btn-back" onclick="goBack()">← Back</button>
+                        <h2 class="welcome-title">Welcome back to PaletteVerse!</h2>
+                        <p class="welcome-text">Discover and collect amazing artwork from talented artists.</p>
+                        <div class="instagram-icon">🎨</div>
                     </div>
-
                     <div class="form-section">
-                        <form class="login-form" id="buyerLoginForm">
+                        <form id="buyerLoginForm" class="login-form">
                             <div class="form-group">
-                                <label for="buyer-login-username">Username</label>
-                                <input type="text" id="buyer-login-username" placeholder="Enter your username" required>
+                                <label for="buyer-login-username">Email</label>
+                                <input type="email" id="buyer-login-username" placeholder="Enter your Email" required>
                             </div>
                             <div class="form-group">
                                 <label for="buyer-login-password">Password</label>
-                                <input type="password" id="buyer-login-password" placeholder="••••••••" required>
+                                <input type="password" id="buyer-login-password" placeholder="Enter your password" required>
                             </div>
                             <button type="submit" class="btn-login">Login</button>
                         </form>
                         <div class="form-footer">
-                            <p>Don't have an account? <a href="#" class="signup-link" onclick="switchToSignup(event)">Sign up</a></p>
+                            Don't have an account? <a href="#" class="signup-link" onclick="switchToSignup(event)">Sign up</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Artist Login Form -->
-            <div class="auth-card hidden" id="artistLoginCard">
+            <!-- ARTIST LOGIN CARD -->
+            <div id="artistLoginCard" class="auth-card hidden">
                 <div class="auth-container">
                     <div class="welcome-section">
-                        <button class="btn-back" onclick="goBack()">&larr;</button>
-                        <h2 class="welcome-title">Artist Login</h2>
-                        <p class="welcome-text">Welcome back to PaletteVerse! Create and showcase your artwork to the world.</p>
+                        <button class="btn-back" onclick="goBack()">← Back</button>
+                        <h2 class="welcome-title">Welcome back to PaletteVerse!</h2>
+                        <p class="welcome-text">Create and showcase your artwork to the world.</p>
                         <div class="instagram-icon">🎨</div>
                     </div>
-
                     <div class="form-section">
-                        <form class="login-form" id="artistLoginForm">
+                        <form id="artistLoginForm" class="login-form">
                             <div class="form-group">
-                                <label for="artist-login-username">Username</label>
-                                <input type="text" id="artist-login-username" placeholder="Enter your username" required>
+                                <label for="artist-login-username">Email</label>
+                                <input type="email" id="artist-login-username" placeholder="Enter your Email" required>
                             </div>
                             <div class="form-group">
                                 <label for="artist-login-password">Password</label>
-                                <input type="password" id="artist-login-password" placeholder="••••••••" required>
+                                <input type="password" id="artist-login-password" placeholder="Enter your password" required>
                             </div>
                             <button type="submit" class="btn-login">Login</button>
                         </form>
                         <div class="form-footer">
-                            <p>Don't have an account? <a href="#" class="signup-link" onclick="switchToSignup(event)">Sign up</a></p>
+                            Don't have an account? <a href="#" class="signup-link" onclick="switchToSignup(event)">Sign up</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Buyer Signup Form -->
-            <div class="auth-card hidden" id="buyerSignupCard">
+            <!-- BUYER SIGNUP CARD -->
+            <div id="buyerSignupCard" class="auth-card hidden">
                 <div class="auth-container">
                     <div class="welcome-section">
-                        <button class="btn-back" onclick="switchToLogin()">&larr;</button>
-                        <h2 class="welcome-title">Buyer Register</h2>
+                        <button class="btn-back" onclick="goBack()">← Back</button>
+                        <h2 class="welcome-title">Join PaletteVerse</h2>
                         <p class="welcome-text">Create your buyer account and start discovering incredible artwork from talented artists worldwide.</p>
-                        <div class="instagram-icon">👤</div>
+                        <div class="instagram-icon">🎨</div>
                     </div>
-
                     <div class="form-section">
-                        <form class="signup-form" id="buyerSignupForm">
+                        <form id="buyerSignupForm" class="signup-form">
                             <div class="form-group">
-                                <label for="buyer-signup-username">Username</label>
-                                <input type="text" id="buyer-signup-username" placeholder="Enter your username" required>
+                                <label for="buyer-signup-username">Name</label>
+                                <input type="text" id="buyer-signup-username" placeholder="Enter your name" required>
                             </div>
                             <div class="form-group">
                                 <label for="buyer-signup-email">Email</label>
@@ -114,32 +111,31 @@
                             </div>
                             <div class="form-group">
                                 <label for="buyer-signup-password">Password</label>
-                                <input type="password" id="buyer-signup-password" placeholder="••••••••" required>
+                                <input type="password" id="buyer-signup-password" placeholder="Create a password" required>
                             </div>
                             <button type="submit" class="btn-login">Register</button>
                         </form>
                         <div class="form-footer">
-                            <p>Already have an account? <a href="#" class="signup-link" onclick="switchToLogin()">Sign in</a></p>
+                            Already have an account? <a href="#" class="signup-link" onclick="switchToLogin()">Sign in</a>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Artist Signup Form -->
-            <div class="auth-card hidden" id="artistSignupCard">
+            <!-- ARTIST SIGNUP CARD -->
+            <div id="artistSignupCard" class="auth-card hidden">
                 <div class="auth-container">
                     <div class="welcome-section">
-                        <button class="btn-back" onclick="switchToLogin()">&larr;</button>
-                        <h2 class="welcome-title">Artist Register</h2>
+                        <button class="btn-back" onclick="goBack()">← Back</button>
+                        <h2 class="welcome-title">Join PaletteVerse</h2>
                         <p class="welcome-text">Join our creative community and showcase your amazing artwork to collectors around the globe.</p>
                         <div class="instagram-icon">🎨</div>
                     </div>
-
                     <div class="form-section">
-                        <form class="signup-form" id="artistSignupForm">
+                        <form id="artistSignupForm" class="signup-form">
                             <div class="form-group">
-                                <label for="artist-signup-username">Username</label>
-                                <input type="text" id="artist-signup-username" placeholder="Enter your username" required>
+                                <label for="artist-signup-username">Name</label>
+                                <input type="text" id="artist-signup-username" placeholder="Enter your Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="artist-signup-email">Email</label>
@@ -147,12 +143,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="artist-signup-password">Password</label>
-                                <input type="password" id="artist-signup-password" placeholder="••••••••" required>
+                                <input type="password" id="artist-signup-password" placeholder="Create a password" required>
                             </div>
                             <button type="submit" class="btn-login">Register</button>
                         </form>
                         <div class="form-footer">
-                            <p>Already have an account? <a href="#" class="signup-link" onclick="switchToLogin()">Sign in</a></p>
+                            Already have an account? <a href="#" class="signup-link" onclick="switchToLogin()">Sign in</a>
                         </div>
                     </div>
                 </div>
@@ -160,8 +156,16 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- TOAST NOTIFICATION -->
     <div id="toast" class="toast"></div>
+ <!-- Firebase App -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+<!-- Firebase Authentication -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<!-- Firebase Realtime Database -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
     <script src="script.js"></script>
 </body>
