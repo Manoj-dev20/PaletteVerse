@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="header-container">
             <div class="logo">PaletteVerse</div>
@@ -48,8 +47,6 @@
         <!-- Title Section -->
         <section class="title-section">
             <h1 class="page-title">Our Artworks</h1>
-            
-            <!-- Filter Tabs -->
             <div class="filter-tabs">
                 <button class="tab-btn active" data-filter="featured">Featured</button>
                 <button class="tab-btn" data-filter="bestseller">Best Seller</button>
@@ -72,258 +69,35 @@
                     <option>Sort Price</option>
                     <option>Low to high</option>
                     <option>High to Low</option>
-                   
                 </select>
             </div>
             <div class="filter-group search-group">
                 <input type="text" class="search-input" placeholder="Search artworks...">
                 <button class="search-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
+                    <!-- svg -->
                 </button>
             </div>
         </section>
 
-        <!-- Products Grid -->
-        <section class="products-grid">
-            <!-- Product Card 1 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\rukmini.jpeg" alt="Pooja Hegde Graphite Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Rukmini Vasanth Graphite Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 2 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\pooja.jpeg" alt="Kalyani Graphite Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Pooja Hegde Graphite Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 3 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\kalyani.jpeg" alt="Aamir Khan Charcoal Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Kalyani Priyadarshan Charcoal Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 4 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\sri1.jpeg" alt="Mahesh Babu Graphite Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Mahesh Babu Graphite Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 5 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\h2.jpeg" alt="Kantara Graphite Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Kantara Graphite Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 6 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\m5.jpeg" alt="Sudarshana Homa Painting" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Sudarshana Homa Painting</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 7 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\s2.jpg" alt="Sushanth Singh Graphite Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Mrunal Thakur Graphite Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-
-            <!-- Product Card 8 -->
-            <div class="product-card">
-                <div class="product-image-container">
-                    <img src="images\aish.jpeg" alt="Sudeep Graphite Sketch" class="product-image">
-                    <button class="wishlist-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </button>
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <h3 class="product-name">Aishwarya Rai Graphite Sketch</h3>
-                <div class="product-rating">
-                    <span class="stars">★★★★★</span>
-                    <span class="review-count">(230 reviews)</span>
-                </div>
-                <div class="product-footer">
-                    <span class="product-price">$40</span>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
+        <!-- Products Grid (dynamic) -->
+        <section id="products-grid" class="products-grid">
+            <!-- This will be filled dynamically from Firebase -->
+            <div id="loading-msg" style="padding:40px;text-align:center;color:#666">Loading artworks…</div>
         </section>
     </main>
- <!-- Footer -->
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-section">
-                <h3 class="footer-title">PaletteVerse</h3>
-                <p class="footer-tagline">We help you Feel<br>Happy with Our Art</p>
-                <div class="social-links">
-                    <a href="#" class="social-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M18 2h-3a6 6 0 0 0-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 0 1 2-2h3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="white"></path>
-                            <circle cx="17.5" cy="6.5" r="1.5" fill="white"></circle>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2s9 5 20 5a9.5 9.5 0 0 0-9-5.5c4.75 2.25 7-7 7-7"></path>
-                        </svg>
-                    </a>
-                </div>
-            </div>
-
-            <div class="footer-section">
-                <h4 class="footer-heading">Information</h4>
-                <ul class="footer-links">
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Product</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4 class="footer-heading">Company</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Career</a></li>
-                    <li><a href="#">Our story</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h4 class="footer-heading">Contact</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Getting Started</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">Resources</a></li>
-                </ul>
-            </div>
+            <!-- footer content -->
         </div>
 
         <div class="footer-bottom">
             <p>2023 all Right Reserved Term of use GREENMIND</p>
         </div>
     </footer>
-    <script src="gallery.js"></script>
+
+    <!-- NOTE: gallery.js now contains Firebase logic and UI handlers -->
+    <script type="module" src="gallery.js"></script>
 </body>
 </html>
