@@ -52,26 +52,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedPhoto = localStorage.getItem("profilePhoto");
   if (savedPhoto && profileImg) profileImg.src = savedPhoto;
 
-  // Helper: get username priority:
-  // 1) /buyer/{uid}/username
-  // 2) /users/buyers/{uid}/username
-  // 3) firebase auth displayName (name given during signup)
+  // New robust loader for preferred name:
+  // Tries direct paths, then queries by child 'uid' (handles push-key structures)
   async function loadPreferredName(uid, authDisplayName) {
     try {
-      // try /buyer/{uid}/username first (as you asked "username node under the buyer node")
-      const buyerRef = firebase.database().ref("buyer/" + uid + "/username");
-      const snap1 = await buyerRef.once("value");
-      if (snap1.exists() && snap1.val()) return snap1.val();
+      // 1) direct buyer/{uid}/username
+      const directBuyerRef = firebase.database().ref(`buyer/${uid}/username`);
+      const snapDirectBuyer = await directBuyerRef.once("value");
+      if (snapDirectBuyer.exists() && snapDirectBuyer.val()) return snapDirectBuyer.val();
 
-      // fallback to /users/buyers/{uid}/username (in case your DB uses this structure)
-      const usersBuyersRef = firebase.database().ref("users/buyers/" + uid + "/username");
-      const snap2 = await usersBuyersRef.once("value");
-      if (snap2.exists() && snap2.val()) return snap2.val();
+      // 2) direct users/buyers/{uid}/username
+      const directUsersBuyerRef = firebase.database().ref(`users/buyers/${uid}/username`);
+      const snapDirectUsersBuyer = await directUsersBuyerRef.once("value");
+      if (snapDirectUsersBuyer.exists() && snapDirectUsersBuyer.val()) return snapDirectUsersBuyer.val();
 
-      // final fallback: auth displayName (name given during signup)
+      // 3) query buyer where child 'uid' == uid (handles buyer -> pushId -> { uid, username })
+      const buyerListRef = firebase.database().ref("buyer");
+      const buyerQuery = await buyerListRef.orderByChild("uid").equalTo(uid).once("value");
+      if (buyerQuery.exists()) {
+        const val = buyerQuery.val();
+        // take first matching child
+        const firstKey = Object.keys(val)[0];
+        const entry = val[firstKey];
+        if (entry && entry.username) return entry.username;
+      }
+
+      // 4) query users/buyers where child 'uid' == uid (handles push-keyed users)
+      const usersBuyersRef = firebase.database().ref("users/buyers");
+      const usersBuyersQuery = await usersBuyersRef.orderByChild("uid").equalTo(uid).once("value");
+      if (usersBuyersQuery.exists()) {
+        const val = usersBuyersQuery.val();
+        const firstKey = Object.keys(val)[0];
+        const entry = val[firstKey];
+        if (entry && entry.username) return entry.username;
+      }
+
+      // 5) fallback to auth displayName
       return authDisplayName || null;
     } catch (err) {
-      console.warn("Error loading preferred name:", err);
+      console.warn("Error while loading preferred name:", err);
       return authDisplayName || null;
     }
   }
@@ -97,21 +116,34 @@ document.addEventListener("DOMContentLoaded", () => {
       const email = user.email || null;
       const photoURL = user.photoURL || null;
 
-      // Fetch preferred name with the new priority
+      // This will cover direct path and push-key list structures
       const preferredName = await loadPreferredName(uid, authDisplayName);
 
       if (profileNameEl) profileNameEl.textContent = preferredName || "Buyer";
       if (profileEmailEl) profileEmailEl.textContent = email || "Not provided";
       if (profileImg && photoURL) profileImg.src = photoURL;
 
-      // Also read other DB fields (tagline, photoURL) from the canonical location you use (/users/buyers)
+      // Read canonical other fields (tagline, photoURL) from users/buyers/{uid} if present
       const snapshot = await firebase.database().ref("users/buyers/" + uid).once("value");
       if (snapshot.exists()) {
         const db = snapshot.val();
         if (db.tagline && profileTaglineEl) profileTaglineEl.textContent = db.tagline;
         if (db.email && profileEmailEl) profileEmailEl.textContent = db.email;
-        // if auth had no photo but DB has one, use DB's photo
         if (db.photoURL && profileImg && !photoURL) profileImg.src = db.photoURL;
+      } else {
+        // try to find tagline/photo in push-keyed buyers (if any)
+        const buyerListRef = firebase.database().ref("buyer");
+        const buyerQuery = await buyerListRef.orderByChild("uid").equalTo(uid).once("value");
+        if (buyerQuery.exists()) {
+          const val = buyerQuery.val();
+          const firstKey = Object.keys(val)[0];
+          const entry = val[firstKey];
+          if (entry) {
+            if (entry.tagline && profileTaglineEl) profileTaglineEl.textContent = entry.tagline;
+            if (entry.photoURL && profileImg && !photoURL) profileImg.src = entry.photoURL;
+            if (entry.email && profileEmailEl) profileEmailEl.textContent = entry.email;
+          }
+        }
       }
 
       localStorage.setItem("buyerUID", uid);
@@ -121,9 +153,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // UI modal handlers (unchanged)
+  // open/close edit modal
   if (editProfileBtn) {
-    editProfileBtn.addEventListener("click", () => {
+    editProfileBtn.addEventListener("click", async () => {
+      // Prefill inputs from visible UI
       nameInput.value = profileNameEl ? profileNameEl.textContent : "";
       taglineInput.value = profileTaglineEl ? profileTaglineEl.textContent : "";
       emailInput.value = profileEmailEl ? profileEmailEl.textContent : "";
@@ -134,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (cancelBtn) cancelBtn.addEventListener("click", () => editModal.classList.remove("active"));
   if (editModal) editModal.addEventListener("click", (e) => { if (e.target === editModal) editModal.classList.remove("active"); });
 
-  // Profile picture upload (unchanged)
+  // Profile picture upload (preview + save)
   if (editProfilePicBtn && profileFileInput) {
     editProfilePicBtn.addEventListener("click", () => profileFileInput.click());
     profileFileInput.addEventListener("change", async (e) => {
@@ -150,9 +183,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const user = firebase.auth().currentUser;
         if (user) {
           try {
-            // Save to both possible DB locations to keep them in sync
+            // Save to canonical locations
             await firebase.database().ref("users/buyers/" + user.uid).update({ photoURL: dataURL });
             await firebase.database().ref("buyer/" + user.uid).update({ photoURL: dataURL });
+            // Also try to update auth profile
             await user.updateProfile({ photoURL: dataURL }).catch(() => {});
             showNotification("Profile picture saved to your account.");
           } catch (err) {
@@ -164,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Submit edit form -> update DB + auth where appropriate
+  // When user saves profile, write to canonical paths and keep in sync
   if (editForm) {
     editForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -182,10 +216,20 @@ document.addEventListener("DOMContentLoaded", () => {
       if (user) {
         const uid = user.uid;
         const updates = { username: name, tagline, email };
+
         try {
-          // Write username to both the canonical 'users/buyers' path and the 'buyer' node so loadPreferredName finds it.
+          // Write in places we check on load for future fast reads
           await firebase.database().ref("users/buyers/" + uid).update(updates);
           await firebase.database().ref("buyer/" + uid).update({ username: name, tagline, email });
+
+          // Also keep older push-keyed records in sync if they exist:
+          const buyerListRef = firebase.database().ref("buyer");
+          const buyerQuery = await buyerListRef.orderByChild("uid").equalTo(uid).once("value");
+          if (buyerQuery.exists()) {
+            const val = buyerQuery.val();
+            const firstKey = Object.keys(val)[0];
+            await firebase.database().ref(`buyer/${firstKey}`).update({ username: name, tagline, email });
+          }
 
           try { await user.updateProfile({ displayName: name }); } catch (err) { console.warn("Could not update auth displayName:", err); }
 
@@ -212,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Optional: try load from localUID if offline (unchanged)
+  // try load from localUID if offline
   (async function tryLoadFromLocalUID() {
     const localUID = localStorage.getItem("buyerUID");
     if (!firebase.auth().currentUser && localUID) {
@@ -224,6 +268,21 @@ document.addEventListener("DOMContentLoaded", () => {
           if (profileEmailEl) profileEmailEl.textContent = data.email || profileEmailEl.textContent;
           if (data.tagline && profileTaglineEl) profileTaglineEl.textContent = data.tagline;
           if (data.photoURL && profileImg) profileImg.src = data.photoURL;
+        } else {
+          // try push-keyed buyer list
+          const buyerListRef = firebase.database().ref("buyer");
+          const buyerQuery = await buyerListRef.orderByChild("uid").equalTo(localUID).once("value");
+          if (buyerQuery.exists()) {
+            const val = buyerQuery.val();
+            const firstKey = Object.keys(val)[0];
+            const entry = val[firstKey];
+            if (entry) {
+              if (profileNameEl) profileNameEl.textContent = entry.username || profileNameEl.textContent;
+              if (profileEmailEl) profileEmailEl.textContent = entry.email || profileEmailEl.textContent;
+              if (entry.tagline && profileTaglineEl) profileTaglineEl.textContent = entry.tagline;
+              if (entry.photoURL && profileImg) profileImg.src = entry.photoURL;
+            }
+          }
         }
       } catch (err) {
         console.warn("Could not load localUID profile:", err);
