@@ -1,4 +1,54 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyAUrNn924N0Bx5Ow9bH0fo4ECgYQNYjcFk",
+  authDomain: "paletteverse-659bd.firebaseapp.com",
+  databaseURL: "https://paletteverse-659bd-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "paletteverse-659bd",
+  storageBucket: "paletteverse-659bd.firebasestorage.app",
+  messagingSenderId: "415618228152",
+  appId: "1:415618228152:web:356cd28b5f938a842df94d",
+  measurementId: "G-C1X35LPMDF"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
 document.addEventListener("DOMContentLoaded", () => {
+  // Declare firebase variable or import it
+  const firebase = window.firebase // Assuming firebase is available globally
+
+  // =============================
+  // LOAD BUYER PROFILE FROM FIREBASE
+  // =============================
+  async function loadBuyerProfile() {
+    const uid = localStorage.getItem("buyerUID")
+    if (!uid) {
+      console.log("No UID found")
+      return
+    }
+
+    const userRef = firebase.database().ref("users/buyers/" + uid)
+    userRef
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          const profileName = document.querySelector(".profile-info h1")
+          if (profileName) profileName.textContent = data.username || "Buyer"
+
+          const emailEl = document.querySelector(".email")
+          if (emailEl) emailEl.textContent = data.email || "Not available"
+        } else {
+          console.log("No user data found")
+        }
+      })
+      .catch((error) => {
+        console.error("Error loading profile:", error)
+      })
+  }
+
+  // Call the function
+  loadBuyerProfile()
+
   // Profile Dropdown
   const profileBtn = document.getElementById("profileBtn")
   const profileDropdown = document.getElementById("profileDropdown")

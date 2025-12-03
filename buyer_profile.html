@@ -44,27 +44,34 @@
 
     <!-- Main Content -->
     <main class="container">
-        <!-- Profile Overview Section -->
-        <section class="profile-header">
-            <div class="profile-card">
-                <div class="profile-picture-wrapper">
-                    <img src="Gemini_Generated_Image_5ntvzb5ntvzb5ntv.png" alt="Profile Picture" class="profile-picture" id="profileImg">
-                    <input type="file" id="profileFileInput" accept="image/*" style="display: none;">
-                    <button class="edit-icon" title="Edit profile picture" id="editProfilePicBtn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </button>
-                </div>
-                <div class="profile-info">
-                    <h1>Alex Rivera</h1>
-                    <p class="tagline">Art Collector | Since 2024</p>
-                    <p class="email">alex.rivera@email.com</p>
-                </div>
-                <button class="btn-outline" id="editProfileBtn">Edit Profile</button>
-            </div>
-        </section>
+       <!-- Profile Overview Section -->
+<section class="profile-header">
+    <div class="profile-card">
+        <div class="profile-picture-wrapper">
+            <img src="Gemini_Generated_Image_5ntvzb5ntvzb5ntv.png" 
+                 alt="Profile Picture" 
+                 class="profile-picture" 
+                 id="profileImg">
+
+            <input type="file" id="profileFileInput" accept="image/*" style="display: none;">
+
+            <button class="edit-icon" title="Edit profile picture" id="editProfilePicBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div class="profile-info">
+            <h1 id="profileName">Loading...</h1>
+            <p class="tagline" id="profileTagline">Art Collector | Since 2024</p>
+            <p class="email" id="profileEmail">Loading email...</p>
+        </div>
+
+        <button class="btn-outline" id="editProfileBtn">Edit Profile</button>
+    </div>
+</section>
 
         <!-- Order Summary Section -->
         <section class="order-summary">
@@ -355,7 +362,16 @@
         <div class="footer-divider"></div>
         <p>&copy; 2025 PaletteVerse — Empowering Artists & Collectors.</p>
     </footer>
+         <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
+ <!-- Firebase App -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
 
+<!-- Firebase Authentication -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+<!-- Firebase Realtime Database -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="buyer_profile.js"></script>
 </body>
 </html>
