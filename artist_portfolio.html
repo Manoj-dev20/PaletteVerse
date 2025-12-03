@@ -17,7 +17,6 @@
                 <a href="tasks.html" class="nav-link">Tasks/Challenges</a>
                 <a href="chat.html" class="nav-link">Chats</a>
             </nav>
-           
         </div>
     </header>
 
@@ -82,9 +81,16 @@
                         <p class="upload-subtext">PNG, JPG up to 10MB</p>
                         <input type="file" id="artworkImage" class="file-input" accept="image/*">
                     </div>
+
                     <div id="imagePreview" class="image-preview hidden">
                         <img id="previewImg" src="/placeholder.svg" alt="Preview">
                         <button type="button" class="change-image-btn" id="changeImageBtn">Change Image</button>
+
+                        <!-- <<< ADDED: imagePlaceholder (minimal change you requested) >>> -->
+                        <div id="imagePlaceholder" style="color:#999; text-align:center; padding:8px; display:none;">
+                            No image selected
+                        </div>
+                        <!-- <<< end added element >>> -->
                     </div>
                 </div>
 
@@ -97,7 +103,7 @@
                 <!-- Description -->
                 <div class="form-group">
                     <label for="artworkDescription" class="form-label">Description</label>
-                    <textarea id="artworkDescription" class="form-textarea" placeholder="Describe your artwork..."></textarea>
+                    <textarea id="artworkDescription" class="form-textarea" placeholder="Describe your artwork."></textarea>
                 </div>
 
                 <!-- Category and Paper Size in Two Columns -->
@@ -141,6 +147,7 @@
             </form>
         </div>
     </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
@@ -200,6 +207,8 @@
             <p>2023 all Right Reserved Term of use GREENMIND</p>
         </div>
     </footer>
-    <script src="artist_portfolio.js"></script>
+
+    <!-- IMPORTANT: load your JS as a module so imports work -->
+    <script type="module" src="artist_portfolio.js"></script>
 </body>
 </html>

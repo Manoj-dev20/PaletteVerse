@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Payment Successful | MyStore</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #4f46e5 0, #020617 55%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      overflow: hidden;
+    }
+    .container {
+      width: 380px;
+      max-width: 92vw;
+      text-align: center;
+      position: relative;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 24px;
+      padding: 32px 24px 26px;
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+    .glow {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle,#22c55e,transparent 70%);
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0.4;
+      filter: blur(8px);
+      pointer-events: none;
+    }
+    .check-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 4px solid #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      background: radial-gradient(circle at 30% 20%, #bbf7d0, #16a34a);
+      color: white;
+      font-size: 44px;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
+      animation: pop 0.4s ease-out forwards, pulse 1.8s ease-out 0.4s infinite;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.2); opacity: 0; }
+      60% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+      70% { box-shadow: 0 0 0 16px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    p.subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 14px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      margin-bottom: 16px;
+    }
+    .amount {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .detail {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+      word-break: break-all;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      padding: 9px 10px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg,#6366f1,#ec4899);
+      color: white;
+      box-shadow: 0 12px 26px rgba(129, 140, 248, 0.6);
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+    }
+
+    /* simple floating confetti dots */
+    .confetti {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #fbbf24;
+      opacity: 0.8;
+      animation: float 4s linear infinite;
+    }
+    .confetti:nth-child(1) { left: 10%; animation-duration: 4.5s; background:#facc15;}
+    .confetti:nth-child(2) { left: 25%; animation-duration: 4s; background:#fb7185;}
+    .confetti:nth-child(3) { left: 40%; animation-duration: 5s; background:#38bdf8;}
+    .confetti:nth-child(4) { left: 60%; animation-duration: 3.7s; background:#22c55e;}
+    .confetti:nth-child(5) { left: 80%; animation-duration: 4.8s; background:#a855f7;}
+    @keyframes float {
+      0% { transform: translateY(40px); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(-260px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- confetti dots -->
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+
+  <div class="card">
+    <div class="glow"></div>
+    <div class="check-circle">✓</div>
+    <h1>Payment Successful</h1>
+    <p class="subtitle">Your order has been placed and is now being processed.</p>
+
+    <div class="pill">
+      🔒 Secured by Razorpay
+    </div>
+
+    <div class="amount">₹<span id="amount">0.00</span></div>
+
+    <p class="detail"><strong>Payment ID</strong></p>
+    <p class="detail" id="payment-id">-</p>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="viewAgain()">View Cart</button>
+      <button class="btn btn-primary" onclick="newOrder()">New Purchase</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const paymentId = localStorage.getItem("payment_id") || "Not available";
+  const amount = localStorage.getItem("payment_amount") || "0.00";
+
+  document.getElementById("payment-id").textContent = paymentId;
+  document.getElementById("amount").textContent = amount;
+
+  function viewAgain() {
+    window.location.href = "checkout.html";
+  }
+  function newOrder() {
+    window.location.href = "cart.html";
+  }
+</script>
+
+</body>
+</html>

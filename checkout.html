@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PaletteVerse - Checkout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* (same styles as before) */
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{background:#f6f6f6;color:#111}
+    .container{max-width:1200px;margin:0 auto;padding:24px}
+    .header{border-bottom:1px solid #e5e5e5;margin-bottom:24px;padding-bottom:12px}
+    .brand-name{font-size:24px;font-weight:700;text-transform:uppercase}
+    .tagline{font-size:14px;color:#777;margin-top:4px}
+    .main-content{display:grid;grid-template-columns:2fr 1.3fr;gap:32px}
+    .section-title{font-size:18px;font-weight:600;margin-bottom:16px}
+    .products-section,.payment-section{background:#fff;border-radius:6px;border:1px solid #e5e5e5;padding:20px}
+    .products-container{border-top:1px solid #eee;border-bottom:1px solid #eee;margin-top:8px}
+    .product-item{display:flex;padding:16px 0;border-bottom:1px solid #eee;gap:12px}
+    .product-item:last-child{border-bottom:none}
+    .product-image{width:64px;height:64px;border-radius:6px;background:#f2f2f2;display:flex;align-items:center;justify-content:center;font-size:30px}
+    .product-details{flex:1}
+    .product-name{font-size:16px;font-weight:600;margin-bottom:4px}
+    .product-description{font-size:13px;color:#777;margin-bottom:8px}
+    .product-meta{display:flex;justify-content:space-between;font-size:13px}
+    .product-price{font-weight:600}
+    .order-total{margin-top:18px;border-top:1px solid #eee;padding-top:12px}
+    .total-row{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px}
+    .divider{border-top:1px solid #111;padding-top:10px;margin-top:6px}
+    .grand-total-label{font-weight:700}
+    .grand-total-amount{font-weight:700;font-size:16px}
+    .btn-submit{width:100%;margin-top:16px;border:none;background:#111;color:#fff;padding:12px;border-radius:4px;font-size:14px;font-weight:600;cursor:pointer;text-transform:uppercase}
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="header">
+      <h1 class="brand-name">PaletteVerse</h1>
+      <p class="tagline">Complete Your Order</p>
+    </header>
+
+    <main class="main-content">
+      <!-- LEFT -->
+      <section class="products-section">
+        <h2 class="section-title">Order Summary</h2>
+
+        <div class="products-container" id="productsContainer"></div>
+
+        <div class="order-total">
+          <div class="total-row"><span>Subtotal</span><span id="subtotalAmount">₹0.00</span></div>
+          <div class="total-row"><span>Tax (8%)</span><span id="taxAmount">₹0.00</span></div>
+          <div class="total-row divider"><span class="grand-total-label">Grand Total</span><span class="grand-total-amount" id="grandTotalAmount">₹0.00</span></div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="payment-section">
+        <h2 class="section-title">Payment</h2>
+        <p>You will be redirected to Razorpay to complete your payment securely.</p>
+
+        <div class="order-total">
+          <div class="total-row divider"><span class="grand-total-label">Amount to Pay</span><span class="grand-total-amount" id="payableAmount">₹0.00</span></div>
+        </div>
+
+        <button class="btn-submit" id="payWithRazorpayBtn">Pay Securely with Razorpay</button>
+      </section>
+    </main>
+  </div>
+
+  <!-- Razorpay -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <script>
+    // Try reading the cart snapshot as saved by your cart page
+    const cartSnapshot = JSON.parse(localStorage.getItem("cartSnapshot") || "null");
+    // Backwards-compat fallback: older key used elsewhere
+    const legacyCartItems = JSON.parse(localStorage.getItem("cartItems") || "null");
+
+    // Use the snapshot if present, otherwise fallback to legacy format
+    const rawItems = Array.isArray(cartSnapshot) ? cartSnapshot : (Array.isArray(legacyCartItems) ? legacyCartItems : []);
+
+    // Map items to a consistent shape: { name, desc, price, qty, imageUrl }
+    const items = rawItems.map(it => {
+      // handle either format
+      const name = it.title || it.name || it.caption || "Artwork";
+      const desc = it.description || it.caption || it.desc || "";
+      const price = Number(it.priceSnapshot ?? it.price ?? 0); // priceSnapshot from cart, or price
+      const qty = Number(it.qty ?? it.quantity ?? it.qty ?? 1);
+      const imageUrl = it.imageUrl || it.url || "";
+      return { name, desc, price: isNaN(price) ? 0 : price, qty: isNaN(qty) ? 1 : qty, imageUrl };
+    });
+
+    const productsContainer = document.getElementById("productsContainer");
+    const subtotalAmount = document.getElementById("subtotalAmount");
+    const taxAmount = document.getElementById("taxAmount");
+    const grandTotalAmount = document.getElementById("grandTotalAmount");
+    const payableAmount = document.getElementById("payableAmount");
+    const payBtn = document.getElementById("payWithRazorpayBtn");
+
+    // Use same TAX_RATE as cart page (8% => 0.08) so totals match exactly
+    const TAX_RATE = 0.08;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProducts();
+      calculateTotals();
+    });
+
+    function renderProducts() {
+      productsContainer.innerHTML = "";
+
+      if (!items.length) {
+        productsContainer.innerHTML = `<div style="padding:20px;color:#777">Your cart is empty.</div>`;
+        return;
+      }
+
+      items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "product-item";
+        div.innerHTML = `
+          <div class="product-image">${item.imageUrl ? `<img src="${escapeHtml(item.imageUrl)}" style="width:64px;height:64px;object-fit:cover;border-radius:6px"/>` : '🛒'}</div>
+          <div class="product-details">
+            <h3 class="product-name">${escapeHtml(item.name)}</h3>
+            <p class="product-description">${escapeHtml(item.desc || "")}</p>
+            <div class="product-meta">
+              <span>Qty: ${item.qty}</span>
+              <span class="product-price">₹${(item.price * item.qty).toLocaleString("en-IN")}</span>
+            </div>
+          </div>`;
+        productsContainer.appendChild(div);
+      });
+    }
+
+    function calculateTotals() {
+      const subtotal = items.reduce((sum, item) => sum + (Number(item.price) * Number(item.qty)), 0);
+      const tax = subtotal * TAX_RATE;
+      const grandTotal = subtotal + tax;
+
+      subtotalAmount.textContent = "₹" + subtotal.toLocaleString("en-IN",{minimumFractionDigits:2});
+      taxAmount.textContent = "₹" + tax.toLocaleString("en-IN",{minimumFractionDigits:2});
+      grandTotalAmount.textContent = "₹" + grandTotal.toLocaleString("en-IN",{minimumFractionDigits:2});
+      payableAmount.textContent = "₹" + grandTotal.toLocaleString("en-IN",{minimumFractionDigits:2});
+
+      // Store numeric grand total for the payment handler if needed
+      // (keeps consistency if user navigates away and returns)
+      localStorage.setItem("checkoutGrandTotal", grandTotal.toFixed(2));
+      return grandTotal;
+    }
+
+    // Razorpay handler uses the calculated grand total
+    payBtn.addEventListener("click", () => {
+      const grandTotal = calculateTotals();
+      const amountPaise = Math.round(grandTotal * 100);
+
+      const options = {
+        key: "rzp_test_Rm1fvVGuzMLvTI",
+        amount: amountPaise,
+        currency: "INR",
+        name: "PaletteVerse",
+        description: "Order Payment",
+        handler: function (response) {
+          localStorage.setItem("payment_id", response.razorpay_payment_id);
+          localStorage.setItem("payment_amount", grandTotal.toFixed(2));
+          window.location.href = "success.html";
+        }
+      };
+
+      const rzp = new Razorpay(options);
+      rzp.open();
+    });
+
+    function escapeHtml(str) {
+      return String(str || "").replace(/[&<>"']/g, (s) => {
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        return map[s];
+      });
+    }
+  </script>
+</body>
+</html>
