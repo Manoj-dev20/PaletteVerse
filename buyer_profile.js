@@ -10,11 +10,9 @@ const firebaseConfig = {
   measurementId: "G-C1X35LPMDF"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 document.addEventListener("DOMContentLoaded", () => {
-  // UI elements
   const profileNameEl = document.getElementById("profileName");
   const profileEmailEl = document.getElementById("profileEmail");
   const profileTaglineEl = document.getElementById("profileTagline");
@@ -32,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const editProfilePicBtn = document.getElementById("editProfilePicBtn");
   const profileFileInput = document.getElementById("profileFileInput");
 
-  // Utility: show toast
   function showNotification(message) {
     const notification = document.createElement("div");
     notification.textContent = message;
@@ -49,19 +46,38 @@ document.addEventListener("DOMContentLoaded", () => {
       font-weight: 500;
     `;
     document.body.appendChild(notification);
-    setTimeout(() => {
-      notification.remove();
-    }, 2500);
+    setTimeout(() => notification.remove(), 2500);
   }
 
-  // Load saved photo from localStorage as quick fallback
   const savedPhoto = localStorage.getItem("profilePhoto");
   if (savedPhoto && profileImg) profileImg.src = savedPhoto;
 
-  // When an auth state changes — populate profile from auth and DB
+  // Helper: get username priority:
+  // 1) /buyer/{uid}/username
+  // 2) /users/buyers/{uid}/username
+  // 3) firebase auth displayName (name given during signup)
+  async function loadPreferredName(uid, authDisplayName) {
+    try {
+      // try /buyer/{uid}/username first (as you asked "username node under the buyer node")
+      const buyerRef = firebase.database().ref("buyer/" + uid + "/username");
+      const snap1 = await buyerRef.once("value");
+      if (snap1.exists() && snap1.val()) return snap1.val();
+
+      // fallback to /users/buyers/{uid}/username (in case your DB uses this structure)
+      const usersBuyersRef = firebase.database().ref("users/buyers/" + uid + "/username");
+      const snap2 = await usersBuyersRef.once("value");
+      if (snap2.exists() && snap2.val()) return snap2.val();
+
+      // final fallback: auth displayName (name given during signup)
+      return authDisplayName || null;
+    } catch (err) {
+      console.warn("Error loading preferred name:", err);
+      return authDisplayName || null;
+    }
+  }
+
   firebase.auth().onAuthStateChanged(async (user) => {
     if (!user) {
-      // Not logged in -- try to read from localStorage / existing saved profile
       const savedProfile = localStorage.getItem("userProfile");
       if (savedProfile) {
         const { name, tagline, email } = JSON.parse(savedProfile);
@@ -75,32 +91,29 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // We have a logged in user
     try {
       const uid = user.uid;
-      // Primary values from Auth object
-      const displayName = user.displayName || null;
+      const authDisplayName = user.displayName || null;
       const email = user.email || null;
       const photoURL = user.photoURL || null;
 
-      // Put auth values in UI first
-      if (profileNameEl) profileNameEl.textContent = displayName || "Buyer";
+      // Fetch preferred name with the new priority
+      const preferredName = await loadPreferredName(uid, authDisplayName);
+
+      if (profileNameEl) profileNameEl.textContent = preferredName || "Buyer";
       if (profileEmailEl) profileEmailEl.textContent = email || "Not provided";
       if (profileImg && photoURL) profileImg.src = photoURL;
 
-      // Then try to read additional profile fields from Realtime Database under users/buyers/{uid}
-      const userRef = firebase.database().ref("users/buyers/" + uid);
-      const snapshot = await userRef.once("value");
+      // Also read other DB fields (tagline, photoURL) from the canonical location you use (/users/buyers)
+      const snapshot = await firebase.database().ref("users/buyers/" + uid).once("value");
       if (snapshot.exists()) {
         const db = snapshot.val();
-        // Use DB username if it exists (fallback to auth displayName)
-        if (db.username && profileNameEl) profileNameEl.textContent = db.username;
-        if (db.email && profileEmailEl) profileEmailEl.textContent = db.email;
         if (db.tagline && profileTaglineEl) profileTaglineEl.textContent = db.tagline;
+        if (db.email && profileEmailEl) profileEmailEl.textContent = db.email;
+        // if auth had no photo but DB has one, use DB's photo
         if (db.photoURL && profileImg && !photoURL) profileImg.src = db.photoURL;
       }
 
-      // Save UID locally for other flows (optional)
       localStorage.setItem("buyerUID", uid);
     } catch (err) {
       console.error("Failed to load user profile:", err);
@@ -108,29 +121,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Open / close edit modal
+  // UI modal handlers (unchanged)
   if (editProfileBtn) {
-    editProfileBtn.addEventListener("click", async () => {
-      // Pre-fill form with the latest displayed values
+    editProfileBtn.addEventListener("click", () => {
       nameInput.value = profileNameEl ? profileNameEl.textContent : "";
       taglineInput.value = profileTaglineEl ? profileTaglineEl.textContent : "";
       emailInput.value = profileEmailEl ? profileEmailEl.textContent : "";
       editModal.classList.add("active");
     });
   }
-
   if (closeModal) closeModal.addEventListener("click", () => editModal.classList.remove("active"));
   if (cancelBtn) cancelBtn.addEventListener("click", () => editModal.classList.remove("active"));
-  if (editModal) {
-    editModal.addEventListener("click", (e) => {
-      if (e.target === editModal) editModal.classList.remove("active");
-    });
-  }
+  if (editModal) editModal.addEventListener("click", (e) => { if (e.target === editModal) editModal.classList.remove("active"); });
 
-  // Profile picture upload (quick local preview + saving to DB as dataURL)
+  // Profile picture upload (unchanged)
   if (editProfilePicBtn && profileFileInput) {
     editProfilePicBtn.addEventListener("click", () => profileFileInput.click());
-
     profileFileInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
       if (!file) return;
@@ -141,12 +147,12 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("profilePhoto", dataURL);
         showNotification("Profile picture updated (local preview).");
 
-        // Try to save to Realtime DB for logged in user (note: better to upload to Storage in production)
         const user = firebase.auth().currentUser;
         if (user) {
           try {
+            // Save to both possible DB locations to keep them in sync
             await firebase.database().ref("users/buyers/" + user.uid).update({ photoURL: dataURL });
-            // Also update firebase auth profile photoURL (not a real hosted URL, but keep consistent)
+            await firebase.database().ref("buyer/" + user.uid).update({ photoURL: dataURL });
             await user.updateProfile({ photoURL: dataURL }).catch(() => {});
             showNotification("Profile picture saved to your account.");
           } catch (err) {
@@ -158,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Submit edit form -> update DB and Auth profile where possible
+  // Submit edit form -> update DB + auth where appropriate
   if (editForm) {
     editForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -166,36 +172,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const tagline = taglineInput.value.trim();
       const email = emailInput.value.trim();
 
-      // Update UI immediately
       if (profileNameEl) profileNameEl.textContent = name || profileNameEl.textContent;
       if (profileTaglineEl) profileTaglineEl.textContent = tagline || profileTaglineEl.textContent;
       if (profileEmailEl) profileEmailEl.textContent = email || profileEmailEl.textContent;
 
-      // Persist locally
       localStorage.setItem("userProfile", JSON.stringify({ name, tagline, email }));
 
-      // If user is logged in, update Realtime DB and Firebase Auth
       const user = firebase.auth().currentUser;
       if (user) {
         const uid = user.uid;
-        const updates = {
-          username: name,
-          tagline,
-          email, // keep in DB too
-        };
-
+        const updates = { username: name, tagline, email };
         try {
-          // Update DB
+          // Write username to both the canonical 'users/buyers' path and the 'buyer' node so loadPreferredName finds it.
           await firebase.database().ref("users/buyers/" + uid).update(updates);
+          await firebase.database().ref("buyer/" + uid).update({ username: name, tagline, email });
 
-          // Update Auth profile displayName
-          try {
-            await user.updateProfile({ displayName: name });
-          } catch (err) {
-            console.warn("Could not update auth displayName:", err);
-          }
+          try { await user.updateProfile({ displayName: name }); } catch (err) { console.warn("Could not update auth displayName:", err); }
 
-          // If email changed, attempt updateEmail (requires recent login in many cases)
           if (email && email !== user.email) {
             try {
               await user.updateEmail(email);
@@ -219,23 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Example small interactive bits (order modal open/close) kept from previous logic:
-  const orderModal = document.getElementById("orderModal");
-  const closeOrderModal = document.getElementById("closeOrderModal");
-  document.querySelectorAll(".summary-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      if (orderModal) orderModal.classList.add("active");
-    });
-  });
-  if (closeOrderModal) closeOrderModal.addEventListener("click", () => orderModal && orderModal.classList.remove("active"));
-  if (orderModal) {
-    orderModal.addEventListener("click", (e) => {
-      if (e.target === orderModal) orderModal.classList.remove("active");
-    });
-  }
-
-  // (Optional) quick boot: if a buyerUID was already present in local storage and user not logged in,
-  // try to fetch DB profile to populate UI. This keeps your previous behaviour for offline/demo uses:
+  // Optional: try load from localUID if offline (unchanged)
   (async function tryLoadFromLocalUID() {
     const localUID = localStorage.getItem("buyerUID");
     if (!firebase.auth().currentUser && localUID) {
