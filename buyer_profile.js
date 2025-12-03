@@ -1,4 +1,3 @@
-// buyer_profile.js (debuggable verbose version)
 const firebaseConfig = {
   apiKey: "AIzaSyAUrNn924N0Bx5Ow9bH0fo4ECgYQNYjcFk",
   authDomain: "paletteverse-659bd.firebaseapp.com",
@@ -10,219 +9,363 @@ const firebaseConfig = {
   measurementId: "G-C1X35LPMDF"
 };
 
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 document.addEventListener("DOMContentLoaded", () => {
-  const profileNameEl = document.getElementById("profileName");
-  const profileEmailEl = document.getElementById("profileEmail");
-  const profileTaglineEl = document.getElementById("profileTagline");
-  const profileImg = document.getElementById("profileImg");
-  const toastEl = document.getElementById("toast");
+  // Declare firebase variable or import it
+  const firebase = window.firebase // Assuming firebase is available globally
 
-  const editProfileBtn = document.getElementById("editProfileBtn");
-  const editModal = document.getElementById("editModal");
-  const closeModal = document.getElementById("closeModal");
-  const cancelBtn = document.getElementById("cancelBtn");
-  const editForm = document.getElementById("editForm");
-  const nameInput = document.getElementById("name");
-  const taglineInput = document.getElementById("tagline");
-  const emailInput = document.getElementById("email");
-
-  const editProfilePicBtn = document.getElementById("editProfilePicBtn");
-  const profileFileInput = document.getElementById("profileFileInput");
-
-  // Better toast: shows message and optionally error
-  function showNotification(message, isError=false) {
-    console.info("TOAST:", message);
-    if (toastEl) {
-      toastEl.textContent = message;
-      toastEl.classList.add(isError ? "toast-error" : "toast-ok");
-      setTimeout(() => {
-        toastEl.textContent = "";
-        toastEl.classList.remove("toast-error","toast-ok");
-      }, 4000);
-    } else {
-      // fallback
-      const n = document.createElement("div");
-      n.textContent = message;
-      n.style.cssText = "position:fixed;bottom:16px;right:16px;padding:10px;background:#fff;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15)";
-      document.body.appendChild(n);
-      setTimeout(()=>n.remove(),4000);
+  // =============================
+  // LOAD BUYER PROFILE FROM FIREBASE
+  // =============================
+  async function loadBuyerProfile() {
+    const uid = localStorage.getItem("buyerUID")
+    if (!uid) {
+      console.log("No UID found")
+      return
     }
-  }
 
-  // quick console-prefill
-  window.__profileDebug = {
-    lastSteps: []
-  };
+    const userRef = firebase.database().ref("users/buyers/" + uid)
+    userRef
+      .once("value")
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val()
+          const profileName = document.querySelector(".profile-info h1")
+          if (profileName) profileName.textContent = data.username || "Buyer"
 
-  function logStep(msg, obj) {
-    console.log("[PROFILE DEBUG]", msg, obj === undefined ? "" : obj);
-    window.__profileDebug.lastSteps.push({time: new Date().toISOString(), msg, obj});
-    if (window.__profileDebug.lastSteps.length > 40) window.__profileDebug.lastSteps.shift();
-  }
-
-  const savedPhoto = localStorage.getItem("profilePhoto");
-  if (savedPhoto && profileImg) profileImg.src = savedPhoto;
-
-  // Robust name loader with detailed console logs and no silent failures
-  async function loadPreferredName(uid, authDisplayName) {
-    logStep("loadPreferredName START", {uid, authDisplayName});
-    try {
-      // attempt 1: direct buyer/{uid}/username
-      logStep("attempt: buyer/{uid}/username");
-      const directBuyerSnap = await firebase.database().ref(`buyer/${uid}/username`).once("value");
-      logStep("buyer/{uid}/username snapshot", directBuyerSnap.exists() ? directBuyerSnap.val() : null);
-      if (directBuyerSnap.exists() && directBuyerSnap.val()) {
-        return directBuyerSnap.val();
-      }
-
-      // attempt 2: direct users/buyers/{uid}/username
-      logStep("attempt: users/buyers/{uid}/username");
-      const directUsersSnap = await firebase.database().ref(`users/buyers/${uid}/username`).once("value");
-      logStep("users/buyers/{uid}/username snapshot", directUsersSnap.exists() ? directUsersSnap.val() : null);
-      if (directUsersSnap.exists() && directUsersSnap.val()) {
-        return directUsersSnap.val();
-      }
-
-      // attempt 3: query buyer list for child 'uid' === uid (push-keyed entries)
-      logStep("attempt: query buyer where uid==uid (push-key)");
-      const buyerListSnap = await firebase.database().ref("buyer").orderByChild("uid").equalTo(uid).once("value");
-      logStep("buyer list query snapshot exists", buyerListSnap.exists());
-      if (buyerListSnap.exists()) {
-        const val = buyerListSnap.val();
-        logStep("buyer list returned", val);
-        const firstKey = Object.keys(val)[0];
-        const entry = val[firstKey];
-        logStep("first matched push entry", entry);
-        if (entry && entry.username) return entry.username;
-      }
-
-      // attempt 4: users/buyers list query (push-keyed)
-      logStep("attempt: query users/buyers where uid==uid");
-      const usersBuyersSnap = await firebase.database().ref("users/buyers").orderByChild("uid").equalTo(uid).once("value");
-      logStep("users/buyers query exists", usersBuyersSnap.exists());
-      if (usersBuyersSnap.exists()) {
-        const val = usersBuyersSnap.val();
-        logStep("users/buyers returned", val);
-        const firstKey = Object.keys(val)[0];
-        const entry = val[firstKey];
-        logStep("first matched users/buyers entry", entry);
-        if (entry && entry.username) return entry.username;
-      }
-
-      // final fallback to auth displayName
-      logStep("fallback to auth displayName", authDisplayName);
-      return authDisplayName || null;
-    } catch (err) {
-      logStep("ERROR in loadPreferredName", err && err.message ? err.message : err);
-      throw err; // rethrow so caller can display error
-    }
-  }
-
-  // Expose a debug helper on window you can call from the console:
-  window.debugQueries = async function() {
-    try {
-      const user = firebase.auth().currentUser;
-      if (!user) { console.warn("no currentUser"); return "no-user"; }
-      const uid = user.uid;
-      console.log("debugQueries running for uid:", uid);
-
-      const result = {};
-      result.directBuyer = (await firebase.database().ref(`buyer/${uid}`).once("value")).val();
-      result.directUsersBuyer = (await firebase.database().ref(`users/buyers/${uid}`).once("value")).val();
-      result.buyerQuery = (await firebase.database().ref("buyer").orderByChild("uid").equalTo(uid).once("value")).val();
-      result.usersBuyersQuery = (await firebase.database().ref("users/buyers").orderByChild("uid").equalTo(uid).once("value")).val();
-
-      console.log("debugQueries result:", result);
-      return result;
-    } catch (e) {
-      console.error("debugQueries error:", e);
-      return { error: e && e.message ? e.message : String(e) };
-    }
-  };
-
-  // main auth listener
-  firebase.auth().onAuthStateChanged(async (user) => {
-    if (!user) {
-      logStep("onAuthStateChanged: no user found");
-      showNotification("Not logged in", true);
-      // try localStorage fallback
-      const saved = localStorage.getItem("userProfile");
-      if (saved) {
-        try {
-          const p = JSON.parse(saved);
-          profileNameEl && (profileNameEl.textContent = p.name || "Buyer");
-          profileTaglineEl && (profileTaglineEl.textContent = p.tagline || "Art Collector");
-          profileEmailEl && (profileEmailEl.textContent = p.email || "Not available");
-          logStep("populated from localStorage", p);
-        } catch (e) {
-          logStep("error parsing localStorage profile", e);
+          const emailEl = document.querySelector(".email")
+          if (emailEl) emailEl.textContent = data.email || "Not available"
+        } else {
+          console.log("No user data found")
         }
-      } else {
-        profileNameEl && (profileNameEl.textContent = "Guest");
-        profileEmailEl && (profileEmailEl.textContent = "Please log in");
-      }
-      return;
+      })
+      .catch((error) => {
+        console.error("Error loading profile:", error)
+      })
+  }
+
+  // Call the function
+  loadBuyerProfile()
+
+  // Profile Dropdown
+  const profileBtn = document.getElementById("profileBtn")
+  const profileDropdown = document.getElementById("profileDropdown")
+
+  if (profileBtn) {
+    profileBtn.addEventListener("click", () => {
+      profileDropdown.classList.toggle("active")
+    })
+  }
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".profile-icon-wrapper")) {
+      profileDropdown.classList.remove("active")
     }
+  })
 
-    // we have user
-    logStep("onAuthStateChanged: user present", {uid: user.uid, email: user.email, displayName: user.displayName});
-    showNotification("Loading profile...");
-    try {
-      const uid = user.uid;
-      const prefName = await loadPreferredName(uid, user.displayName);
-      logStep("preferred name resolved", prefName);
-      profileNameEl && (profileNameEl.textContent = prefName || "Buyer");
-      profileEmailEl && (profileEmailEl.textContent = user.email || "Not provided");
-      if (user.photoURL && profileImg) profileImg.src = user.photoURL;
+  // Edit Profile Modal
+  const editModal = document.getElementById("editModal")
+  const editProfileBtn = document.getElementById("editProfileBtn")
+  const editSettingsBtn = document.getElementById("editSettingsBtn")
+  const closeModal = document.getElementById("closeModal")
+  const cancelBtn = document.getElementById("cancelBtn")
+  const editForm = document.getElementById("editForm")
 
-      // read canonical path users/buyers/{uid}
-      const snap = await firebase.database().ref(`users/buyers/${uid}`).once("value");
-      logStep("users/buyers/{uid} snapshot exists", snap.exists());
-      if (snap.exists()) {
-        const db = snap.val();
-        logStep("users/buyers/{uid} value", db);
-        db.tagline && profileTaglineEl && (profileTaglineEl.textContent = db.tagline);
-        db.email && profileEmailEl && (profileEmailEl.textContent = db.email);
-        if (db.photoURL && profileImg && !user.photoURL) profileImg.src = db.photoURL;
-      } else {
-        // also attempt to find tagline/photo in push-keyed buyer
-        const pushSnap = await firebase.database().ref("buyer").orderByChild("uid").equalTo(uid).once("value");
-        if (pushSnap.exists()) {
-          logStep("found push-keyed buyer record", pushSnap.val());
-          const v = pushSnap.val();
-          const firstKey = Object.keys(v)[0];
-          const entry = v[firstKey];
-          entry.tagline && profileTaglineEl && (profileTaglineEl.textContent = entry.tagline);
-          entry.photoURL && profileImg && (profileImg.src = entry.photoURL);
-          entry.email && profileEmailEl && (profileEmailEl.textContent = entry.email);
-        }
-      }
-
-      localStorage.setItem("buyerUID", uid);
-      showNotification("Profile loaded");
-    } catch (err) {
-      // show the real error message so you can debug it
-      console.error("Failed to load user profile:", err);
-      const msg = err && err.message ? err.message : String(err);
-      showNotification("Could not load profile: " + msg, true);
-    }
-  });
-
-  // minimal modal code kept for convenience (unchanged)
   if (editProfileBtn) {
     editProfileBtn.addEventListener("click", () => {
-      nameInput.value = profileNameEl ? profileNameEl.textContent : "";
-      taglineInput.value = profileTaglineEl ? profileTaglineEl.textContent : "";
-      emailInput.value = profileEmailEl ? profileEmailEl.textContent : "";
-      editModal.classList.add("active");
-    });
+      editModal.classList.add("active")
+    })
   }
-  if (closeModal) closeModal.addEventListener("click", () => editModal.classList.remove("active"));
-  if (cancelBtn) cancelBtn.addEventListener("click", () => editModal.classList.remove("active"));
-  if (editModal) editModal.addEventListener("click", (e) => { if (e.target === editModal) editModal.classList.remove("active"); });
 
-  // keep other flows unchanged (profile pic, submit handler, etc.) --
-  // you can copy the versions from previous file if needed for saving changes
-});
+  if (editSettingsBtn) {
+    editSettingsBtn.addEventListener("click", () => {
+      editModal.classList.add("active")
+    })
+  }
+
+  if (closeModal) {
+    closeModal.addEventListener("click", () => {
+      editModal.classList.remove("active")
+    })
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      editModal.classList.remove("active")
+    })
+  }
+
+  if (editModal) {
+    editModal.addEventListener("click", (e) => {
+      if (e.target === editModal) {
+        editModal.classList.remove("active")
+      }
+    })
+  }
+
+  if (editForm) {
+    editForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+
+      const name = document.getElementById("name").value
+      const tagline = document.getElementById("tagline").value
+      const email = document.getElementById("email").value
+
+      const profileHeader = document.querySelector(".profile-info h1")
+      const profileTagline = document.querySelector(".tagline")
+      const profileEmail = document.querySelector(".email")
+
+      if (profileHeader) profileHeader.textContent = name
+      if (profileTagline) profileTagline.textContent = tagline
+      if (profileEmail) profileEmail.textContent = email
+
+      // Store in localStorage to persist changes
+      localStorage.setItem("userProfile", JSON.stringify({ name, tagline, email }))
+
+      editModal.classList.remove("active")
+      showNotification("Profile updated successfully!")
+    })
+
+    // Load saved profile data from localStorage
+    const savedProfile = localStorage.getItem("userProfile")
+    if (savedProfile) {
+      const { name, tagline, email } = JSON.parse(savedProfile)
+      const nameInput = document.getElementById("name")
+      const taglineInput = document.getElementById("tagline")
+      const emailInput = document.getElementById("email")
+
+      if (nameInput) nameInput.value = name
+      if (taglineInput) taglineInput.value = tagline
+      if (emailInput) emailInput.value = email
+
+      // Update profile display
+      const profileHeader = document.querySelector(".profile-info h1")
+      const profileTaglineEl = document.querySelector(".tagline")
+      const profileEmailEl = document.querySelector(".email")
+
+      if (profileHeader) profileHeader.textContent = name
+      if (profileTaglineEl) profileTaglineEl.textContent = tagline
+      if (profileEmailEl) profileEmailEl.textContent = email
+    }
+  }
+
+  // Order Modal
+  const orderModal = document.getElementById("orderModal")
+  const closeOrderModal = document.getElementById("closeOrderModal")
+  const summaryCards = document.querySelectorAll(".summary-card")
+
+  summaryCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      if (orderModal) {
+        orderModal.classList.add("active")
+      }
+    })
+  })
+
+  if (closeOrderModal) {
+    closeOrderModal.addEventListener("click", () => {
+      if (orderModal) {
+        orderModal.classList.remove("active")
+      }
+    })
+  }
+
+  if (orderModal) {
+    orderModal.addEventListener("click", (e) => {
+      if (e.target === orderModal) {
+        orderModal.classList.remove("active")
+      }
+    })
+  }
+
+  const editProfilePicBtn = document.getElementById("editProfilePicBtn")
+  const profileFileInput = document.getElementById("profileFileInput")
+  const profileImg = document.getElementById("profileImg")
+
+  if (editProfilePicBtn && profileFileInput) {
+    editProfilePicBtn.addEventListener("click", () => {
+      profileFileInput.click()
+    })
+
+    profileFileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0]
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          profileImg.src = event.target.result
+          // Save profile photo to localStorage
+          localStorage.setItem("profilePhoto", event.target.result)
+          showNotification("Profile picture updated!")
+        }
+        reader.readAsDataURL(file)
+      }
+    })
+
+    // Load saved profile photo from localStorage
+    const savedPhoto = localStorage.getItem("profilePhoto")
+    if (savedPhoto) {
+      profileImg.src = savedPhoto
+    }
+  }
+
+  const chatBtn = document.getElementById("chatBtn")
+  const chatModal = document.getElementById("chatModal")
+  const closeChatModal = document.getElementById("closeChatModal")
+
+  if (chatBtn && chatModal) {
+    chatBtn.addEventListener("click", () => {
+      chatModal.classList.add("active")
+    })
+  }
+
+  if (closeChatModal && chatModal) {
+    closeChatModal.addEventListener("click", () => {
+      chatModal.classList.remove("active")
+    })
+  }
+
+  if (chatModal) {
+    chatModal.addEventListener("click", (e) => {
+      if (e.target === chatModal) {
+        chatModal.classList.remove("active")
+      }
+    })
+  }
+
+  // Request Card Details
+  const requestDetails = [
+    {
+      title: "Commissioned Portrait",
+      details: "A custom portrait commission featuring personalized artwork",
+    },
+    {
+      title: "Abstract Series Set",
+      details: "A collection of 3 abstract pieces in coordinating styles",
+    },
+    {
+      title: "Landscape Commission",
+      details: "Custom landscape artwork with specific location reference",
+    },
+  ]
+
+  document.querySelectorAll(".request-card .btn-text").forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      showNotification(`Viewing: ${requestDetails[index].title}`)
+    })
+  })
+
+  // Wishlist Buttons
+  document.querySelectorAll(".item-overlay .btn-text").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      showNotification("Navigating to artwork details...")
+    })
+  })
+
+  // Communication Cards
+  document.querySelector(".comm-card:first-child .btn-outline").addEventListener("click", () => {
+    showNotification("Opening messages...")
+  })
+
+  document.querySelector(".comm-card:last-child .btn-outline").addEventListener("click", () => {
+    showNotification("Connecting to support team...")
+  })
+
+  // Settings Buttons
+  document.querySelectorAll(".settings-group .btn-outline").forEach((btn, index) => {
+    const labels = ["Edit Details", "Manage Payment Methods", "Notification Preferences"]
+    btn.addEventListener("click", () => {
+      if (index === 2) {
+        showNotification("Opening notification settings...")
+      } else {
+        showNotification(`Opening ${labels[index]}...`)
+      }
+    })
+  })
+
+  // Delete Account Button
+  document.querySelector(".btn-delete").addEventListener("click", () => {
+    if (confirm("Are you sure? This action cannot be undone.")) {
+      showNotification("Account deletion initiated...")
+    }
+  })
+
+  // Notification Function
+  function showNotification(message) {
+    const notification = document.createElement("div")
+    notification.textContent = message
+    notification.style.cssText = `
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: #fff;
+      color: #000;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 3000;
+      animation: slideInRight 0.3s ease;
+      font-weight: 500;
+    `
+
+    document.body.appendChild(notification)
+
+    setTimeout(() => {
+      notification.style.animation = "slideOutRight 0.3s ease"
+      setTimeout(() => {
+        notification.remove()
+      }, 300)
+    }, 2500)
+  }
+
+  // Add animation styles
+  const style = document.createElement("style")
+  style.textContent = `
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideOutRight {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100px);
+        opacity: 0;
+      }
+    }
+  `
+  document.head.appendChild(style)
+
+  // Add scroll animations
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px",
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1"
+        entry.target.style.transform = "translateY(0)"
+      }
+    })
+  }, observerOptions)
+
+  document.querySelectorAll(".summary-card, .request-card, .wishlist-item, .comm-card").forEach((el) => {
+    el.style.opacity = "0"
+    el.style.transform = "translateY(20px)"
+    el.style.transition = "all 0.6s ease"
+    observer.observe(el)
+  })
+})
